@@ -4,9 +4,9 @@ nginx:
     - "80:80"
     - "8080:8080"
   volumes:
-    - "$HOME/git/materia-docker/app/public:/usr/share/www:ro"
-    - "$HOME/git/materia-docker/app/static:/usr/share/static:ro"
-    - "$HOME/git/materia-docker/config/nginx/sites-enabled:/etc/nginx/conf.d:ro"
+    - "app/public:/usr/share/www:ro"
+    - "app/static:/usr/share/static:ro"
+    - "config/nginx/sites-enabled:/etc/nginx/conf.d:ro"
   links:
     - "php:php"
 
@@ -21,8 +21,8 @@ php:
    DB_USER: materia
    DB_PASS: odin
   volumes:
-   - "$HOME/git/materia-docker/app:/var/www/html:rw"
-   - "$HOME/git/materia-docker/config/php:/usr/local/etc/php/conf.d"
+   - "app:/var/www/html:rw"
+   - "config/php:/usr/local/etc/php/conf.d"
   links:
     - "mysql:mysql"
 
