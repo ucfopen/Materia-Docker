@@ -1,0 +1,38 @@
+nginx:
+  image: nginx
+  ports:
+    - "80:80"
+    - "8080:8080"
+  volumes:
+    - "$HOME/git/materia-docker/app/public:/usr/share/www:ro"
+    - "$HOME/git/materia-docker/app/static:/usr/share/static:ro"
+    - "$HOME/git/materia-docker/config/nginx/sites-enabled:/etc/nginx/conf.d:ro"
+  links:
+    - "php:php"
+
+php:
+  build: .
+  ports:
+   - "9000:9000"
+  environment:
+   FUEL_ENV: development
+   DB_HOST: "mysql:3306"
+   DB: materia
+   DB_USER: materia
+   DB_PASS: odin
+  volumes:
+   - "$HOME/git/materia-docker/app:/var/www/html:rw"
+   - "$HOME/git/materia-docker/config/php:/usr/local/etc/php/conf.d"
+  links:
+    - "mysql:mysql"
+
+mysql:
+  image: mysql:5.6
+  # uncomment to allow mysql access from the host
+  #ports:
+  #  - "3306:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: 'drRoots'
+    MYSQL_USER: 'materia'
+    MYSQL_PASSWORD: 'odin'
+    MYSQL_DATABASE: materia
