@@ -12,6 +12,10 @@ RUN npm install --global \
   grunt-cli \
   gulp
 
+# Clean up the image
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 WORKDIR /var/www/html
 
 # Define default command.

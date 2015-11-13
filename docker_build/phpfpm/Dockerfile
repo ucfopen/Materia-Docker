@@ -15,5 +15,9 @@ RUN pecl install memcached
 # Make sure composer is installed globally
 RUN bash -c "curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer"
 
+# Clean up the image
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 # hack to let php write to the shared disk with boot2docker shares
 RUN usermod -u 1000 www-data
