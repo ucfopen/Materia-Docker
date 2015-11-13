@@ -7,7 +7,8 @@ Materia set up using as docker containers as close to standard as possible.
  1. nginx serves materia on port 80 and static files on 8080
  3. phpfpm runs php - served by the nginx container on port 80
  4. mysql holds all the data
- 5. node compiles all the assets and shuts down
+ 5. memcached holds session data and cache
+ 6. node compiles all the assets and shuts down
 
 ## Setup
 
