@@ -12,8 +12,6 @@ nginx:
 
 phpfpm:
   build: ./docker_build/phpfpm
-  ports:
-   - "9000:9000"
   environment:
     FUEL_ENV: development # this sets the actual fuelphp env!
     DB_HOST: mysql
@@ -30,8 +28,6 @@ phpfpm:
 
 memcached:
   image: memcached:1.4.24
-  ports:
-    - "11211:11211"
 
 mysql:
   image: mysql:5.5.44
