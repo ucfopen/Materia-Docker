@@ -1,38 +1,47 @@
 nginx:
-  image: nginx
+  image: nginx:1.9.0
   ports:
     - "80:80"
-    - "8080:8080"
+    - "8008:8008"
   volumes:
-    - "app/public:/usr/share/www:ro"
-    - "app/static:/usr/share/static:ro"
-    - "config/nginx/sites-enabled:/etc/nginx/conf.d:ro"
+    - "./app/public:/usr/share/www:ro"
+    - "./app/static:/usr/share/static:ro"
+    - "./config/nginx/sites-enabled:/etc/nginx/conf.d:ro"
   links:
-    - "php:php"
+    - "phpfpm:phpfpm"
 
-php:
-  build: .
+phpfpm:
+  build: ./docker_build/phpfpm
   ports:
    - "9000:9000"
   environment:
-   FUEL_ENV: development
-   DB_HOST: "mysql:3306"
-   DB: materia
-   DB_USER: materia
-   DB_PASS: odin
+    FUEL_ENV: development # this sets the actual fuelphp env!
+    DB_HOST: mysql
+    DB_NAME: materia
+    DB_USER: materia
+    DB_PASS: odin
   volumes:
-   - "app:/var/www/html:rw"
-   - "config/php:/usr/local/etc/php/conf.d"
+    - "./app:/var/www/html:rw"
+    - "./config/php:/usr/local/etc/php/conf.d"
+    - "./config/deploy_keys/widget_deploy_key:/root/.ssh/id_rsa:ro"
   links:
     - "mysql:mysql"
 
 mysql:
-  image: mysql:5.6
+  image: mysql:5.5.44
   # uncomment to allow mysql access from the host
   #ports:
   #  - "3306:3306"
   environment:
-    MYSQL_ROOT_PASSWORD: 'drRoots'
-    MYSQL_USER: 'materia'
-    MYSQL_PASSWORD: 'odin'
+    MYSQL_ROOT_PASSWORD: drRoots
+    MYSQL_USER: materia
+    MYSQL_PASSWORD: odin
     MYSQL_DATABASE: materia
+
+# We use a node container to compile js, css, etc
+node:
+  build: ./docker_build/node
+  volumes:
+    - "./app:/var/www/html:rw"
+    - "./config/deploy_keys/widget_deploy_key:/root/.ssh/id_rsa:ro"
+    - "./config/known_hosts:/root/.ssh/known_hosts:ro"
