@@ -2,30 +2,41 @@
 
 Materia set up using as docker containers as close to standard as possible.
 
-## Architecture
+## Container Architecture
 
- 1. NginxContainer serves materia on port 80 (passed through nginx)
- 2. NginxContainer serves static files on port 8080
- 3. PHPFPM container executes materia code served by nginx's port 80 requests
- 4. MYSQL container connects to phpfpm and holds all the data
+ 1. nginx serves materia on port 80 and static files on 8080
+ 3. phpfpm runs php - served by the nginx container on port 80
+ 4. mysql holds all the data
+ 5. node compiles all the assets and shuts down
 
 ## Setup
 
+###  OSX Docker Setup
+1. install virtualbox v.5+
+2. update brew `brew update`
+3. install docker stuffs `brew install docker docker-machine docker-compose`
+5. make docker vm called *default* `docker-machine create -d virtualbox default`
+6. set env variables so docker commands will work in terminal `eval "$(docker-machine env default)"`
+
+### Setting up the stack and app
+
 1. clone materia into app/ `git clone git@github.com:ucfcdl/Materia.git app`
-2. clone widgets into app/widgets
-3. install npm for materia `cd app && npm install`
-4. compile coffeescript and sass `gulp js css hash`
-5. get composer `curl -sS https://getcomposer.org/installer | php`
-6. install php packages `composer update`
-7. start the docker containers `docker-compose up`
-8. open bash in the php container `docker-compose run --entrypoint /bin/bash php`
-9. migrate and install `php oil r install widget_path="widgets/*/_output/*.wigt" -u -f`
+2. get the deploy keys from your boss
+3. install npm_modules for gulp `docker-compose run node npm install`
+4. compile assets with gulp `docker-compose run node gulp js css hash`
+5. install composer modules `docker-compose run phpfpm composer install`
+6. run install task `docker-compose run phpfpm php oil r install` (errors? clear fuel/app/config/development/migrations.php)
+7. get the ip of the our default docker machine `docker-machine ip default`
+8. Run the server stack `docker-compose up`
 
-The site is accessible in your browser at the ip address of the vm `boot2docker ip`
 
-You can access mysql by opening up port 3306 in docker-composer.yml and restarting the containers. Use `boot2docker ip` and use the database user info from the docker-composer.yml
+The site is accessible in your browser at the ip address of the vm `docker-machine ip`
 
-You cannot run php oil commands from your host machine without changing database configuration.  (to do so, change the db connection host to the boot2docker ip value)
+You can access mysql by opening up port 3306 in docker-composer.yml and restarting the containers. Use `docker-machine ip` and use the database user info from the docker-composer.yml
+
+Run oil commands: `docker-compose run phpfpm php oil ......`
+
+You cannot run php oil commands from your host machine.
 
 If you have file permission issues, you may need to:
 

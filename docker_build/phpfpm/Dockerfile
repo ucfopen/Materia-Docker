@@ -1,0 +1,19 @@
+FROM php:5.6.8-fpm
+MAINTAINER Ian Turgeon
+
+# System libs needed for php extensions
+RUN apt-get update && apt-get install -y \
+  zlib1g-dev libpng-dev libmcrypt-dev libmemcached-dev libxml2-dev libldap2-dev git
+
+# PHP Exhensions
+RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu
+RUN docker-php-ext-install pdo pdo_mysql mysql zip gd mbstring mcrypt bcmath xml ldap
+
+# PECL Libraries
+RUN pecl install memcached
+
+# Make sure composer is installed globally
+RUN bash -c "curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer"
+
+# hack to let php write to the shared disk with boot2docker shares
+RUN usermod -u 1000 www-data
