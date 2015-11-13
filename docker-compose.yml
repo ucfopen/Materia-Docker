@@ -12,12 +12,7 @@ nginx:
 
 phpfpm:
   build: ./docker_build/phpfpm
-  environment:
-    FUEL_ENV: development # this sets the actual fuelphp env!
-    DB_HOST: mysql
-    DB_NAME: materia
-    DB_USER: materia
-    DB_PASS: odin
+  env_file: ./config/php/env.cfg
   volumes:
     - "./app:/var/www/html:rw"
     - "./config/php:/usr/local/etc/php/conf.d"
@@ -26,19 +21,14 @@ phpfpm:
     - "mysql:mysql"
     - "memcached:memcached"
 
-memcached:
-  image: memcached:1.4.24
-
 mysql:
   image: mysql:5.5.44
-  # uncomment to allow mysql access from the host
+  env_file: ./config/mysql/env.cfg
   #ports:
-  #  - "3306:3306"
-  environment:
-    MYSQL_ROOT_PASSWORD: drRoots
-    MYSQL_USER: materia
-    MYSQL_PASSWORD: odin
-    MYSQL_DATABASE: materia
+  #  - "3306:3306" # uncomment to allow mysql access from the host
+
+memcached:
+  image: memcached:1.4.24
 
 # We use a node container to compile js, css, etc
 node:
