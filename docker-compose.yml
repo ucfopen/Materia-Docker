@@ -26,6 +26,12 @@ phpfpm:
     - "./config/deploy_keys/widget_deploy_key:/root/.ssh/id_rsa:ro"
   links:
     - "mysql:mysql"
+    - "memcached:memcached"
+
+memcached:
+  image: memcached:1.4.24
+  ports:
+    - "11211:11211"
 
 mysql:
   image: mysql:5.5.44
