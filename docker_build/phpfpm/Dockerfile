@@ -3,11 +3,27 @@ MAINTAINER Ian Turgeon
 
 # System libs needed for php extensions
 RUN apt-get update && apt-get install -y \
-  zlib1g-dev libpng-dev libmcrypt-dev libmemcached-dev libxml2-dev libldap2-dev git
+  git \
+  libldap2-dev \
+  libmcrypt-dev \
+  libmemcached-dev \
+  libpng-dev \
+  libxml2-dev \
+  zlib1g-dev
 
 # PHP Exhensions
 RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu
-RUN docker-php-ext-install pdo pdo_mysql mysql zip gd mbstring mcrypt bcmath xml ldap
+RUN docker-php-ext-install \
+	bcmath \
+	gd \
+	ldap \
+	mbstring \
+	mcrypt \
+	mysql \
+	pdo \
+	pdo_mysql \
+	xml \
+	zip
 
 # PECL Libraries
 RUN pecl install memcached
