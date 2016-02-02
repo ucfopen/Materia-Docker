@@ -4,8 +4,9 @@ nginx:
     - "80:80" # main materia
     - "8008:8008" # static files
   volumes:
-    - "./app/public:/usr/share/www:ro"
+    - "./app:/var/www/html:ro"
     - "./app/static:/usr/share/static:ro"
+    - "./app/fuel/packages/materia/media/:/usr/share/media:ro"
     - "./config/nginx/sites-enabled:/etc/nginx/conf.d:ro"
   links:
     - "phpfpm:phpfpm"
@@ -21,7 +22,7 @@ phpfpm:
 
   volumes:
     - "./app:/var/www/html:rw"
-    - "./config/php:/usr/local/etc/php/conf.d"
+    - "./config/php:/usr/local/etc/php/conf.d:ro"
     - "./config/deploy_keys/widget_deploy_key:/root/.ssh/id_rsa:ro"
   links:
     - "mysql:mysql"
