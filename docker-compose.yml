@@ -1,8 +1,8 @@
 nginx:
   image: nginx:1.9.0
   ports:
-    - "80:80"
-    - "8008:8008"
+    - "80:80" # main materia
+    - "8008:8008" # static files
   volumes:
     - "./app/public:/usr/share/www:ro"
     - "./app/static:/usr/share/static:ro"
@@ -12,7 +12,13 @@ nginx:
 
 phpfpm:
   build: ./docker_build/phpfpm
-  env_file: ./config/php/env.cfg
+  environment:
+    - FUEL_ENV=development
+    - DB_HOST=mysql
+    - DB_NAME=materia
+    - DB_USER=materia
+    - DB_PASS=odin
+
   volumes:
     - "./app:/var/www/html:rw"
     - "./config/php:/usr/local/etc/php/conf.d"
@@ -23,9 +29,13 @@ phpfpm:
 
 mysql:
   image: mysql:5.5.44
-  env_file: ./config/mysql/env.cfg
-  #ports:
-  #  - "3306:3306" # uncomment to allow mysql access from the host
+  environment:
+    - MYSQL_ROOT_PASSWORD=drRoots
+    - MYSQL_USER=materia
+    - MYSQL_PASSWORD=odin
+    - MYSQL_DATABASE=materia
+  ports:
+    - "3306:3306" # allow mysql access from the host - use /etc/hosts to set mysql to your docker-machine ip
 
 memcached:
   image: memcached:1.4.24
