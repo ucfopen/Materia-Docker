@@ -39,11 +39,14 @@ If you get a *no space left on dev* error: Remove the machine with `docker-machi
 
 When running fuelphp's install, you may need to make sure the fuel/app/config/dev/migrations.php file is in sync with your database.  If it's a new database, just delete the file.
 
-You can access mysql by opening up port 3306 in docker-composer.yml and restarting the containers. Use `docker-machine ip` and use the database user info from the docker-composer.yml
+Use `docker-machine ip` and use the database user info from the docker-composer.yml
 
 Run oil commands: `docker-compose run phpfpm php oil ......`
 
 You cannot run php oil commands from your host machine.
+
+You can clone widgets using the host machine into app/fuel/app/tmp/ and run the following command to install them all: `docker-compose run phpfpm  /bin/sh -c 'find fuel/app/tmp/*/_output/*.wigt -exec php oil r widget:install -u -f {} \;'`
+
 
 If you have file permission issues, you may need to:
 
