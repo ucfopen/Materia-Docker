@@ -45,7 +45,10 @@ Run oil commands: `docker-compose run phpfpm php oil ......`
 
 You cannot run php oil commands from your host machine.
 
-You can clone widgets using the host machine into app/fuel/app/tmp/ and run the following command to install them all: `docker-compose run phpfpm  /bin/sh -c 'find fuel/app/tmp/*/_output/*.wigt -exec php oil r widget:install -u -f {} \;'`
+You can read the repositories from the widget config and clone the repositories:
+cd `into app/fuel/app/tmp` and run `for i in $(grep -oh '\<git.*\.git\>' ../../packages/materia/config/widgets.php); do git clone $i; done`
+
+Then install them all: `docker-compose run phpfpm  /bin/sh -c 'find fuel/app/tmp/*/_output/*.wigt -exec php oil r widget:install -u -f {} \;'`
 
 
 If you have file permission issues, you may need to:
