@@ -19,7 +19,6 @@ phpfpm:
     - DB_NAME=materia
     - DB_USER=materia
     - DB_PASS=odin
-
   volumes:
     - "./app:/var/www/html:rw"
     - "./config/php:/usr/local/etc/php/conf.d:ro"
@@ -29,7 +28,7 @@ phpfpm:
     - "memcached:memcached"
 
 mysql:
-  image: mysql:5.5.44
+  image: mysql:5.5.47
   environment:
     - MYSQL_ROOT_PASSWORD=drRoots
     - MYSQL_USER=materia
@@ -37,9 +36,11 @@ mysql:
     - MYSQL_DATABASE=materia
   ports:
     - "3306:3306" # allow mysql access from the host - use /etc/hosts to set mysql to your docker-machine ip
+  volumes:
+    - "./config/mysql/01_create_test.sql:/docker-entrypoint-initdb.d/01_create_test.sql"
 
 memcached:
-  image: memcached:1.4.24
+  image: memcached:1.4.25
 
 # We use a node container to compile js, css, etc
 node:
