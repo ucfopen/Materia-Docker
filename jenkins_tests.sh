@@ -2,6 +2,10 @@
 
 DOCKER_DIR="/home/lst/Desktop/materia-docker"
 
+if [ ! -d $DOCKER_DIR/app ]; then
+	git clone git@github.com:ucfcdl/Materia.git app
+fi
+
 # checkout app
 cd $DOCKER_DIR/app
 git fetch --all
