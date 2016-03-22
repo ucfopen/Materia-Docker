@@ -21,17 +21,16 @@ Materia set up using as docker containers as close to standard as possible.
 
 ### Setting up the stack and app
 
-1. In the *materia-docker* directory clone materia into app/ `git clone git@github.com:ucfcdl/Materia.git app`
-2. get the deploy keys from your boss and put them in *config/deploy_keys*
-3. install npm_modules for gulp `docker-compose run node npm install` (errors? check troubleshooting below)
-4. compile assets with gulp `docker-compose run node gulp js css hash`
-5. install composer modules `docker-compose run phpfpm composer install`
-6. run install task `docker-compose run phpfpm php oil r install` (errors? check troubleshooting below)
-7. Run the server stack `docker-compose up`. Eventually the output will look like it hangs with `mysql_1` saying it's ready for connections - that means your docker machine is good to go!
+Run `$ ./firstrun.sh`
+
+It'll clone the repos, build the boxes, and get everything ready for you.
+
+Run the server stack `docker-compose up`.
 
 The site is accessible in your browser at the ip address of the vm which you can get with `docker-machine ip default`
 
 The terminal window running docker-compose is keeping your containers alive.  Ctrl-C will stop them and your app with it.
+
 
 ### Troubleshooting
 
