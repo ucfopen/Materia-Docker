@@ -49,6 +49,10 @@ cd $DOCKER_DIR
 sudo docker-compose stop
 sudo docker-compose rm -vf
 
+# clean up all the docker containers
+sudo docker stop $(sudo docker ps -a -q)
+sudo docker rm $(sudo docker ps -a -q)
+
 # update docker containers
 git reset --hard
 git pull
@@ -73,6 +77,3 @@ sudo docker-compose run phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env SKIP_BOOT
 
 #cd /home/lst/Desktop/materia-docker/app
 #jasmine-node --coffee --verbose --captureExceptions spec/
-
-sudo docker stop $(sudo docker ps -a -q)
-sudo docker rm $(sudo docker ps -a -q)
