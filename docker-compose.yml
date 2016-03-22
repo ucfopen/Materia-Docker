@@ -12,7 +12,8 @@ nginx:
     - "phpfpm:phpfpm"
 
 phpfpm:
-  build: ./docker_build/phpfpm
+  build: .
+  dockerfile: ./dockerfiles/phpfpm-dockerfile
   environment:
     - FUEL_ENV=development
     - DB_HOST=mysql
@@ -44,7 +45,8 @@ memcached:
 
 # We use a node container to compile js, css, etc
 node:
-  build: ./docker_build/node
+  build: .
+  dockerfile: ./dockerfiles/node-dockerfile
   volumes:
     - "./app:/var/www/html:rw"
     - "./config/deploy_keys/widget_deploy_key:/root/.ssh/id_rsa:ro"
