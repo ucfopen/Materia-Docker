@@ -61,6 +61,13 @@ Materia set up using as docker containers as close to standard as possible.
 	```
 	docker-machine ip default
 	```
+* Installing widgets: Copy the widget file you want to install into **app/fuel/app/tmp/** and then run **install_widget.sh** passing the name of the widget file to install. Example:
+   
+    ```
+    cp my_widget.wigt ~/my_projects/materia_docker/app/fuel/app/tmp
+    cd ~/my_projects/materia_docker
+    ./install_widget my_widget.wigt
+    ```
 
 ### Default User Accounts
 
