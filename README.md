@@ -16,21 +16,62 @@ Materia set up using as docker containers as close to standard as possible.
 1. install virtualbox v.5+
 2. update brew `brew update`
 3. install docker stuffs `brew install docker docker-machine docker-compose`
-4. make docker vm called *default* `docker-machine create -d virtualbox default`
+4. check for an existing docker machine with `docker-machine ls`
+4. if not there, make a docker machine called *default* `docker-machine create -d virtualbox default`
 5. set env variables so docker commands will work in terminal `eval "$(docker-machine env default)"`
 
-### Setting up the stack and app
+### Setting up the Development Materia Docker Server
 
-Run `$ ./firstrun.sh`
+1. Make sure you Github ssh keys and Clu ssh keys are set up
 
-It'll clone the repos, build the boxes, and get everything ready for you.
+2. Clone this repo into a directory anywhere in your **home** directory.
+	```
+	git clone git@***REMOVED***:materia/materia-docker.git ~/my_projects/materia_docker
+	```
 
-Run the server stack `docker-compose up`.
+3. Copy your **Clu** ssh key to so Materia can use it to install widgets from Clu.  This is probably your id_rsa key.
+	```
+	cp ~/.ssh/id_rsa ~/my_projects/materia_docker/config/deploy_keys/widget_deploy_key
+	```
 
-The site is accessible in your browser at the ip address of the vm which you can get with `docker-machine ip default`
+4. Run the first run script to build and prepare the server.
 
-The terminal window running docker-compose is keeping your containers alive.  Ctrl-C will stop them and your app with it.
+	```
+	./firstrun.sh
+	```
+	It'll clone Materia, build the docker containers, and install all the dependencies.
 
+	If you see `Enter passphrase for key '/root/.ssh/id_rsa':` enter the password for the clu key password you copied in step 3 above.
+
+### Common Dev Commands
+
+* Run the server
+	```
+	docker-compose up
+	```
+* Compile the coffeescript and sass
+	```
+	docker-compose run -rm node gulp js css hash
+	```
+* Install composer libraries
+	```
+	docker-compose run -rm phpfpm composer install
+	```
+* What ip address my server on?
+	```
+	docker-machine ip default
+	```
+
+### Default User Accounts
+
+If you wish to log into materia, there are 2 default accounts created for you.
+
+* Author account:
+	* Username: `~author`
+	* Password: `kogneato`
+* Student account:
+	* Username: `~student`
+	* Password: `kogneato`
 
 ### Troubleshooting
 

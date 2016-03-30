@@ -49,10 +49,6 @@ cd $DOCKER_DIR
 sudo docker-compose stop
 sudo docker-compose rm -vf
 
-# clean up all the docker containers
-sudo docker stop $(sudo docker ps -a -q)
-sudo docker rm $(sudo docker ps -a -q)
-
 # update docker containers
 git reset --hard
 git pull
@@ -63,17 +59,17 @@ sudo docker-compose run phpfpm composer install
 
 # run the tasks normaly run in phpunit bootstrap that we have to skip
 # because we're going to clone the widgets from jenkins
-sudo docker-compose run phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env FUEL_ENV=test php oil r admin:clear_cache
-sudo docker-compose run phpfpm env FUEL_ENV=test php oil r admin:setup_migrations
-sudo docker-compose run phpfpm env FUEL_ENV=test php oil r admin:populate_roles
-sudo docker-compose run phpfpm env FUEL_ENV=test php oil r admin:populate_semesters
-sudo docker-compose run phpfpm env FUEL_ENV=test php oil r admin:create_default_users
+sudo docker-compose run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env FUEL_ENV=test php oil r admin:clear_cache
+sudo docker-compose run --rm phpfpm env FUEL_ENV=test php oil r admin:setup_migrations
+sudo docker-compose run --rm phpfpm env FUEL_ENV=test php oil r admin:populate_roles
+sudo docker-compose run --rm phpfpm env FUEL_ENV=test php oil r admin:populate_semesters
+sudo docker-compose run --rm phpfpm env FUEL_ENV=test php oil r admin:create_default_users
 
 # install widgets from the source dir we filled up earlier
-sudo docker-compose run phpfpm /bin/sh -c 'find fuel/packages/materia/vendor/widget/source/*/_output/*.wigt -exec env FUEL_ENV=test php oil r widget:install -u -f {} \;'
+sudo docker-compose run --rm phpfpm /bin/sh -c 'find fuel/packages/materia/vendor/widget/source/*/_output/*.wigt -exec env FUEL_ENV=test php oil r widget:install -u -f {} \;'
 
 # run tests!
-sudo docker-compose run phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env SKIP_BOOTSTRAP_TASKS=true php oil test
+sudo docker-compose run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env SKIP_BOOTSTRAP_TASKS=true php oil test
 
 #cd /home/lst/Desktop/materia-docker/app
 #jasmine-node --coffee --verbose --captureExceptions spec/

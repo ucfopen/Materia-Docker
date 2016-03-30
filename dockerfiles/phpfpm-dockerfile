@@ -44,4 +44,4 @@ ADD config/wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
 # hack to let php write to the shared disk with boot2docker shares
-# RUN usermod -u 1000 www-data
+RUN usermod -u 1000 www-data
