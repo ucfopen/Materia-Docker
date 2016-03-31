@@ -1,0 +1,9 @@
+FROM ***REMOVED***/materia-web:0.0.1-base
+MAINTAINER Ian Turgeon
+
+RUN mkdir /root/.ssh/
+RUN touch /root/.ssh/known_hosts
+RUN ssh-keyscan ***REMOVED*** >> /root/.ssh/known_hosts
+
+# hack to let php write to the shared disk with boot2docker shares
+RUN usermod -u 1000 www-data
