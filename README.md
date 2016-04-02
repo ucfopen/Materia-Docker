@@ -29,19 +29,14 @@ Materia set up using as docker containers as close to standard as possible.
 	git clone git@***REMOVED***:materia/materia-docker.git ~/my_projects/materia_docker
 	```
 
-3. Copy your **Clu** ssh key to so Materia can use it to install widgets from Clu.  This is probably your id_rsa key.
-	```
-	cp ~/.ssh/id_rsa ~/my_projects/materia_docker/config/deploy_keys/widget_deploy_key
-	```
-
-4. Run the first run script to build and prepare the server.
+3. Run the first run script to build and prepare the server.
 
 	```
 	./firstrun.sh
 	```
 	It'll clone Materia, build the docker containers, and install all the dependencies.
 
-	If you see `Enter passphrase for key '/root/.ssh/id_rsa':` enter the password for the clu key password you copied in step 3 above.
+	If you see `Enter passphrase for key` enter the password for the clu key password you copied in step 3 above.
 
 ### Common Dev Commands
 
