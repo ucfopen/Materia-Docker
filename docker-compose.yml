@@ -23,7 +23,6 @@ phpfpm:
   volumes:
     - "./app:/var/www/html:rw"
     - "./config/php:/usr/local/etc/php/conf.d:ro"
-    - "./config/deploy_keys/widget_deploy_key:/root/.ssh/id_rsa:ro"
   links:
     - "mysql:mysql"
     - "memcached:memcached"
@@ -49,5 +48,4 @@ node:
   dockerfile: ./dockerfiles/node-dockerfile
   volumes:
     - "./app:/var/www/html:rw"
-    - "./config/deploy_keys/widget_deploy_key:/root/.ssh/id_rsa:ro"
     - "./config/known_hosts:/root/.ssh/known_hosts:ro"
