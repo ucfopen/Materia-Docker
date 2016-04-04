@@ -35,13 +35,6 @@ RUN pecl install memcached
 # Make sure composer is installed globally
 RUN bash -c "curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer"
 
-RUN mkdir /root/.ssh/
-RUN touch /root/.ssh/known_hosts
-RUN ssh-keyscan ***REMOVED*** >> /root/.ssh/known_hosts
-
 # add script that helps us wait for other containers
-ADD config/wait-for-it.sh /wait-for-it.sh
+COPY config/wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
-
-# hack to let php write to the shared disk with boot2docker shares
-RUN usermod -u 1000 www-data
