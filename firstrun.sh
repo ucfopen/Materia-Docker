@@ -39,7 +39,7 @@ fi
 
 $USE_SUDO docker-compose run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- php oil r install --install_widgets=false --skip_prompts=true
 
-# source clone_widgets.sh
+source clone_widgets.sh
 
 $USE_SUDO docker-compose run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
 
