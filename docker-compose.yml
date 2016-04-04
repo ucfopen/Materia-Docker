@@ -12,8 +12,7 @@ nginx:
     - "phpfpm:phpfpm"
 
 phpfpm:
-  build: .
-  dockerfile: ./dockerfiles/phpfpm-dockerfile
+  image: ***REMOVED***/materia-web:0.0.1-dev
   environment:
     - FUEL_ENV=development
     - DB_HOST=mysql
@@ -44,8 +43,7 @@ memcached:
 
 # We use a node container to compile js, css, etc
 node:
-  build: .
-  dockerfile: ./dockerfiles/node-dockerfile
+  image: ***REMOVED***/materia-node:0.0.1
   volumes:
     - "./app:/var/www/html:rw"
     - "./config/known_hosts:/root/.ssh/known_hosts:ro"
