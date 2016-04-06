@@ -1,20 +1,16 @@
-FROM node:4.2.2
+FROM node:4.2.2-slim
 MAINTAINER Ian Turgeon
 
 RUN apt-get update && apt-get install -y \
-  ruby
-
-RUN gem install \
-  sass
+  build-essential \
+  python-dev \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN npm install --global \
   bower \
   grunt-cli \
   gulp
-
-# Clean up the image
-RUN apt-get clean
-RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /var/www/html
 

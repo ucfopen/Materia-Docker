@@ -1,21 +1,17 @@
-FROM php:5.6.8-fpm
+FROM php:5.6.19-fpm-alpine
 MAINTAINER Ian Turgeon
 
-# System libs needed for php extensions
-RUN apt-get update && apt-get install -y \
+RUN apk update && apk add \
+  bash \
   git \
   libmcrypt-dev \
   libmemcached-dev \
   libpng-dev \
   libxml2-dev \
-  zlib1g-dev
+  zlib-dev
 
-# Clean up the image
-RUN apt-get clean \
-	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# PHP Exhensions
-RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu
+# PECL Libraries
+# memcached build manually
 RUN docker-php-ext-install \
 	bcmath \
 	gd \
@@ -24,7 +20,14 @@ RUN docker-php-ext-install \
 	pdo_mysql \
 	xml \
 	zip \
-	&& pecl install memcached \
+	&& pecl download memcached \
+	&& tar zxvf memcached-2.2.0.tgz \
+	&& cd memcached-2.2.0 \
+	&& phpize \
+	&& ./configure --disable-memcached-sasl \
+	&& make \
+	&& make install \
+	&& docker-php-ext-enable memcached \
 	&& rm -rf /usr/src/php
 
 # Make sure composer is installed globally
@@ -33,3 +36,4 @@ RUN bash -c "curl -sS https://getcomposer.org/installer | php && mv composer.pha
 # add script that helps us wait for other containers
 COPY config/wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
+
