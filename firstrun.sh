@@ -13,13 +13,18 @@ if [ ! -d app ]; then
 	exit
 fi
 
+$USE_SUDO docker-compose pull
+
 # create and migrate the database
 $USE_SUDO docker-compose build
 
-# install all the needed npm stuff
+# create the contaners and setup networking
+$USE_SUDO docker-compose create
+
+# # install all the needed npm stuff
 $USE_SUDO docker-compose run --rm node npm install
 
-# compile js and css
+# # compile js and css
 $USE_SUDO docker-compose run --rm node gulp js css hash
 
 # install composer deps
@@ -37,7 +42,7 @@ if [ -f  app/fuel/app/config/development/migrations.php ]; then
 	exit
 fi
 
-$USE_SUDO docker-compose run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- php oil r install --install_widgets=false --skip_prompts=true
+$USE_SUDO docker-compose run --rm phpfpm bash -c '/wait-for-it.sh mysql:3306 -t 20 -- php oil r install --install_widgets=false --skip_prompts=true'
 
 source clone_widgets.sh
 

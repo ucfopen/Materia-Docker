@@ -1,3 +1,4 @@
+#!/bin/bash
 # ./channelSay "Building $BUILD_URL"
 # ghprbActualCommit=maverick/clean-up-the-damn-widget-installer
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"

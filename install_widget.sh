@@ -1,3 +1,4 @@
+#!/bin/bash
 # place .wigt files in app/fuel/app/tmp/widget_packages/
 # run with: ./install_widget.sh adventure.wigt
 # this does support globs, but you have to quote them so they arent processed in your term
