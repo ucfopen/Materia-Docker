@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
 RUN npm install --global \
   bower \
   grunt-cli \
-  gulp
+  gulp \
+  jasmine-node
 
 WORKDIR /var/www/html
 

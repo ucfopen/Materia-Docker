@@ -1,9 +1,0 @@
-FROM ***REMOVED***/materia-web:0.0.1-base
-MAINTAINER Ian Turgeon
-
-# hack to let php write to the shared disk with boot2docker shares
-# files shared from host into a container appear to use a user on host with UID 1000
-# looks like this container not only doesnt have a user at 1000, but the www-data user cant write to these files
-# so, this changes www-data's uid to 1000
-# RUN usermod -u 1000 www-data
-RUN sed -i "s/^www-data:x:[0-9]*/www-data:x:1000/" /etc/passwd

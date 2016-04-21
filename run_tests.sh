@@ -1,3 +1,4 @@
+#!/bin/bash
 # ./channelSay "Building $BUILD_URL"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #USE_SUDO=''
