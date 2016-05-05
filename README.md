@@ -44,8 +44,6 @@ Materia set up using as docker containers as close to standard as possible.
 	```
 	It'll clone Materia, build the docker containers, and install all the dependencies.
 
-	If you see `Enter passphrase for key` enter the password for the clu key password you copied in step 3 above.
-
 ### Common Dev Commands
 
 * Run the server
