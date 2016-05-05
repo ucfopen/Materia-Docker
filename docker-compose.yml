@@ -1,53 +1,64 @@
-nginx:
-  image: nginx:1.9.0
-  ports:
-    - "80:80" # main materia
-    - "8008:8008" # static files
-  volumes:
-    - "./app:/var/www/html:ro"
-    - "./app/static:/usr/share/static:ro"
-    - "./app/fuel/packages/materia/media/:/usr/share/media:ro"
-    - "./config/nginx/sites-enabled:/etc/nginx/conf.d:ro"
-  links:
-    - "phpfpm:phpfpm"
+version: '2'
 
-phpfpm:
-  build: .
-  dockerfile: ./dockerfiles/phpfpm-dockerfile
-  environment:
-    - FUEL_ENV=development
-    - DB_HOST=mysql
-    - DB_NAME=materia
-    - DB_USER=materia
-    - DB_PASS=odin
-  volumes:
-    - "./app:/var/www/html:rw"
-    - "./config/php:/usr/local/etc/php/conf.d:ro"
-    - "./config/deploy_keys/widget_deploy_key:/root/.ssh/id_rsa:ro"
-  links:
-    - "mysql:mysql"
-    - "memcached:memcached"
+services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80" # main materia
+      - "8008:8008" # static files
+    volumes:
+      - ./app/public:/var/www/html/public:ro
+      - static_files:/usr/share/static:ro
+      - uploaded_media:/usr/share/media:ro
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    links:
+      - phpfpm
 
-mysql:
-  image: mysql:5.5.47
-  environment:
-    - MYSQL_ROOT_PASSWORD=drRoots
-    - MYSQL_USER=materia
-    - MYSQL_PASSWORD=odin
-    - MYSQL_DATABASE=materia
-  ports:
-    - "3306:3306" # allow mysql access from the host - use /etc/hosts to set mysql to your docker-machine ip
-  volumes:
-    - "./config/mysql/01_create_test.sql:/docker-entrypoint-initdb.d/01_create_test.sql"
+  phpfpm:
+    build:
+      context: .
+      dockerfile: dockerfiles/materia-web_dev
+    environment:
+      - FUEL_ENV=development
+      - DB_HOST=mysql
+      - DB_NAME=materia
+      - DB_USER=materia
+      - DB_PASS=odin
+    volumes:
+      - ./app:/var/www/html:rw
+      - ./config/php:/usr/local/etc/php/conf.d:ro
+      - static_files:/var/www/html/static
+      - uploaded_media:/var/www/html/fuel/packages/materia/media
+    links:
+      - mysql
+      - memcached
 
-memcached:
-  image: memcached:1.4.25
+  mysql:
+    image: mysql:5.5.47
+    environment:
+      - MYSQL_ROOT_PASSWORD=drRoots
+      - MYSQL_USER=materia
+      - MYSQL_PASSWORD=odin
+      - MYSQL_DATABASE=materia
+    ports:
+      - "3306:3306" # allow mysql access from the host - use /etc/hosts to set mysql to your docker-machine ip
+    volumes:
+      - "./config/mysql/01_create_test.sql:/docker-entrypoint-initdb.d/01_create_test.sql"
 
-# We use a node container to compile js, css, etc
-node:
-  build: .
-  dockerfile: ./dockerfiles/node-dockerfile
-  volumes:
-    - "./app:/var/www/html:rw"
-    - "./config/deploy_keys/widget_deploy_key:/root/.ssh/id_rsa:ro"
-    - "./config/known_hosts:/root/.ssh/known_hosts:ro"
+  memcached:
+    image: memcached:1.4.25
+
+  # We use a node container to compile js, css, etc
+  node:
+    image: ***REMOVED***/materia-node:latest
+    volumes:
+      - ./app:/var/www/html:rw
+      - static_files:/var/www/html/static:rw
+      - node_modules:/var/www/html/node_modules
+      # - ./config/known_hosts:/root/.ssh/known_hosts:ro
+
+volumes:
+  static_files: {} # compiled js/css and uploaded widgets
+  uploaded_media: {} # uploaded media files
+  node_modules: {} # node modules for npm
+

@@ -1,0 +1,41 @@
+FROM php:5.6.19-fpm-alpine
+MAINTAINER Ian Turgeon
+
+RUN apk update && apk add \
+  bash \
+  git \
+  libmcrypt-dev \
+  libmemcached-dev \
+  libpng-dev \
+  libxml2-dev \
+  zlib-dev
+
+# PECL Libraries
+# memcached build manually
+RUN docker-php-ext-install \
+	bcmath \
+	gd \
+	mbstring \
+	mcrypt \
+	pdo_mysql \
+	xml \
+	zip \
+	&& pecl download memcached \
+	&& tar zxvf memcached-2.2.0.tgz \
+	&& cd memcached-2.2.0 \
+	&& phpize \
+	&& ./configure --disable-memcached-sasl \
+	&& make \
+	&& make install \
+	&& docker-php-ext-enable memcached \
+	&& rm -rf /usr/src/php
+
+# Make sure composer is installed globally
+RUN bash -c "curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer"
+
+# hack to let php write to the shared disk with boot2docker shares
+# files shared from host into a container appear to use a user on host with UID 1000
+# looks like this container not only doesnt have a user at 1000, but the www-data user cant write to these files
+# so, this changes www-data's uid to 1000
+# RUN usermod -u 1000 www-data
+RUN sed -i "s/^www-data:x:[0-9]*/www-data:x:1000/" /etc/passwd
