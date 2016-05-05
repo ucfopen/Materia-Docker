@@ -98,27 +98,13 @@ When running fuelphp's install, you may need to make sure the fuel/app/config/de
 
 Use `docker-machine ip` and use the database user info from the docker-composer.yml
 
-Run oil commands: `docker-compose run phpfpm php oil ......`
+Run oil commands: `docker-compose run --rm phpfpm php oil ......`
 
-You cannot run php oil commands from your host machine.
+You can clone the repositories from the repositories from the materia widget config:
+`./clone_widgets.sh`
 
-You can read the repositories from the widget config and clone the repositories:
-cd `into app/fuel/app/tmp` and run `for i in $(grep -oh '\<git.*\.git\>' ../../packages/materia/config/widgets.php); do git clone $i; done`
-
-Then install them all: `docker-compose run phpfpm  /bin/sh -c 'find fuel/app/tmp/*/_output/*.wigt -exec php oil r widget:install -u -f {} \;'`
-
-
-If you have file permission issues, you may need to:
-
-1. Edit `/etc/exports` add `/Users -mapall=[yourosxuser]:staff [boot2docker-vm-ip]`
-2. Restart nfsd `sudo nfsd stop && sudo nfsd start`
-3. create boot script in boot2docker vm `/var/lib/boot2docker/bootlocal.sh`
-```
-#|/bin/bash
-sudo umount /Users
-sudo /usr/local/etc/init.d/nfs-client start
-sudo mount 192.168.59.3:/Users /Users -o rw,async,noatime,rsize=32768,wsize=32768,proto=tcp
-```
+Then install them all
+`./install_widget '*.wigt'`
 
 ### Optional
 
@@ -133,20 +119,4 @@ function dmenv () {
 
 ### Building new docker images
 
-#### Build a container from a docker file
-
-	```
-	docker build --rm=true -t materia-web:0.0.1-base -f dockerfiles/materia-web_basealpine-dockerfile .
-	```
-
-#### Tag that container for the remote repository
-
-	```
-	docker tag materia-web:0.0.1-base ***REMOVED***/materia-web:0.0.1-base
-	```
-
-#### Push that container to the repository
-
-	```
-	docker push ***REMOVED***/materia-web:0.0.1-base
-	```
+Use the `build_xxxx.sh` scripts to build new versions of the images.  You'll need write access to the aws docker repository to upload them.
