@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker-compose run node gulp js css hash
+docker-compose run --rm node gulp js css hash
