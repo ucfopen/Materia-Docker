@@ -20,6 +20,14 @@ Materia set up using as docker containers as close to standard as possible.
 4. if not there, make a docker machine called *default* `docker-machine create -d virtualbox default`
 5. set env variables so docker commands will work in terminal `eval "$(docker-machine env default)"`
 
+### AWS Container Repository
+1. Install aws command line tools `brew install awscli`
+2. Set up your aws creds - obtain your **super secret** key/secret pair
+3. Run `aws configure` and give it your secrets.  Enter `us-east-1` for region
+4. Run `aws ecr get-login`
+5. Run the output of the previous command to log in
+6. This log in is temporary, and may need to be run again to download more docker images
+
 ### Setting up the Development Materia Docker Server
 
 1. Make sure you Github ssh keys and Clu ssh keys are set up
@@ -46,12 +54,21 @@ Materia set up using as docker containers as close to standard as possible.
 	```
 * Compile the coffeescript and sass
 	```
-	docker-compose run -rm node gulp js css hash
+	docker-compose run --rm node gulp js css hash
 	```
 * Install composer libraries
 	```
-	docker-compose run -rm phpfpm composer install
+	docker-compose run --rm phpfpm composer install
 	```
+* Clone main materia widgets packages into fuel/app/tmp/widget_packages/*.wigt
+	```
+	./clone_widgets.sh
+	```
+* Install all Widgets in fuel/app/tmp/widget_packages/*.wigt
+	```
+	./install_widgets.sh
+	```
+
 * What ip address my server on?
 	```
 	docker-machine ip default
@@ -114,3 +131,24 @@ function dmenv () {
   eval $(docker-machine env $1);
 }
 ```
+
+
+### Building new docker images
+
+#### Build a container from a docker file
+
+	```
+	docker build --rm=true -t materia-web:0.0.1-base -f dockerfiles/materia-web_basealpine-dockerfile .
+	```
+
+#### Tag that container for the remote repository
+
+	```
+	docker tag materia-web:0.0.1-base ***REMOVED***/materia-web:0.0.1-base
+	```
+
+#### Push that container to the repository
+
+	```
+	docker push ***REMOVED***/materia-web:0.0.1-base
+	```

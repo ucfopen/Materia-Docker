@@ -13,13 +13,18 @@ if [ ! -d app ]; then
 	exit
 fi
 
+$USE_SUDO docker-compose pull
+
 # create and migrate the database
 $USE_SUDO docker-compose build
 
-# install all the needed npm stuff
+# create the contaners and setup networking
+$USE_SUDO docker-compose create
+
+# # install all the needed npm stuff
 $USE_SUDO docker-compose run --rm node npm install
 
-# compile js and css
+# # compile js and css
 $USE_SUDO docker-compose run --rm node gulp js css hash
 
 # install composer deps
@@ -37,15 +42,11 @@ if [ -f  app/fuel/app/config/development/migrations.php ]; then
 	exit
 fi
 
-$USE_SUDO docker-compose run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- php oil r install --install_widgets=false --skip_prompts=true
+$USE_SUDO docker-compose run --rm phpfpm bash -c '/wait-for-it.sh mysql:3306 -t 20 -- php oil r install --install_widgets=false --skip_prompts=true'
 
-# clone and install the widgets from the widget config
-for i in $(grep -oh '\<git.*\.git\>' app/fuel/packages/materia/config/widgets.php); do
-	rm -rf app/fuel/app/tmp/widget
-	git clone $i --depth=1 app/fuel/app/tmp/widget
-	$USE_SUDO docker-compose run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget/_output/*.wigt'
-	rm -rf app/fuel/app/tmp/widget
-done
+source clone_widgets.sh
+
+$USE_SUDO docker-compose run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
 
 # run that beast
 echo Materia will be on port 80 at $(docker-machine ip default)
