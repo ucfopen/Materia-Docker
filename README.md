@@ -17,8 +17,8 @@ Materia set up using as docker containers as close to standard as possible.
 2. update brew `brew update`
 3. install docker stuffs `brew install docker docker-machine docker-compose`
 4. check for an existing docker machine with `docker-machine ls`
-4. if not there, make a docker machine called *default* `docker-machine create -d virtualbox default`
-5. set env variables so docker commands will work in terminal `eval "$(docker-machine env default)"`
+5. if not there, make a docker machine called *default* `docker-machine create -d virtualbox default`
+6. set env variables so docker commands will work in terminal `eval "$(docker-machine env default)"`
 
 ### AWS Container Repository
 1. Install aws command line tools `brew install awscli`
