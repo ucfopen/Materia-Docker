@@ -1,4 +1,4 @@
 #!/bin/bash
 
-docker-compose run node gulp
+docker-compose run --rm node gulp
 
