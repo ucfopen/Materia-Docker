@@ -37,7 +37,7 @@ if [ -f  app/fuel/app/config/development/migrations.php ]; then
 	echo ==============================================================================
 	echo "skipping inital install"
 	echo "app/fuel/app/config/development/migrations.php exists!"
-	echo "remove it or run '$USE_SUDO docker-compose run -rm phpfpm php oil r admin:destroy_everything'"
+	echo "remove it or run '$USE_SUDO docker-compose run --rm phpfpm php oil r admin:destroy_everything'"
 	echo ==============================================================================
 	exit
 fi
