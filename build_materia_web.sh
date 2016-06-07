@@ -1,6 +1,6 @@
 #!/bin/bash
-
-docker build -t materia-node:latest -f dockerfiles/materia-node .
+set -e
+docker build -t materia-web:latest -f dockerfiles/materia-web_base .
 
 echo "==================================================="
 echo "to tag the latest build as a specific version, use:"

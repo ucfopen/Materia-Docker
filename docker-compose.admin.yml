@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+
+  phpfpm:
+    environment:
+      - FUEL_ENV=test
+    volumes:
+      - ./config/php/php-extensions-test.ini:/usr/local/etc/php/conf.d/php-extensions-test.ini:ro
+      - static_files_test:/var/www/html/static
+      - uploaded_media_test:/var/www/html/fuel/packages/materia/media
+    command: echo "yay"
+
+  # We use a node container to compile js, css, etc
+  node:
+    image: ***REMOVED***/materia-node:latest
+    volumes:
+      - ./app:/var/www/html:rw
+      - static_files:/var/www/html/static:rw
+      - node_modules:/var/www/html/node_modules
+
+volumes:
+  static_files_test: {}
+  uploaded_media_test: {}
+  node_modules: {} # node modules for npm

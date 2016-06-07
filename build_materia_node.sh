@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 docker build -t materia-node:latest -f dockerfiles/materia-node .
 
 echo "==================================================="
