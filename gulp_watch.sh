@@ -1,4 +1,3 @@
 #!/bin/bash
-
-docker-compose run --rm node gulp
-
+set -e
+docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm node gulp
