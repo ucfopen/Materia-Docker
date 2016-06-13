@@ -1,2 +1,2 @@
 [mysqld]
-innodb_buffer_pool_size = 128M
+innodb_buffer_pool_size = 20M
