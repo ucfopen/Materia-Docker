@@ -44,6 +44,7 @@ services:
       - "3306:3306" # allow mysql access from the host - use /etc/hosts to set mysql to your docker-machine ip
     volumes:
       - "./config/mysql/01_create_test.sql:/docker-entrypoint-initdb.d/01_create_test.sql"
+      - "./config/mysql/dev.my.cnf:/etc/mysql/conf.d/my.cnf"
 
   memcached:
     image: memcached:1.4.25
