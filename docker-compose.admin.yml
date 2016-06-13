@@ -19,6 +19,12 @@ services:
       - static_files:/var/www/html/static:rw
       - node_modules:/var/www/html/node_modules
 
+  mysql:
+    environment:
+      - MYSQL_DATABASE=test
+    volumes:
+      - "./config/mysql/dev.my.cnf:/etc/mysql/conf.d/my.cnf"
+
 volumes:
   static_files_test: {}
   uploaded_media_test: {}
