@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 eval $(docker-machine env default)
 
 if [ ! -d app ]; then
@@ -17,12 +18,6 @@ docker-compose build
 
 # create the contaners and setup networking
 docker-compose create
-
-# # install all the needed npm stuff
-docker-compose run --rm node npm install
-
-# # compile js and css
-docker-compose run --rm node gulp js css hash
 
 # install composer deps
 docker-compose run --rm phpfpm composer install
@@ -44,6 +39,12 @@ docker-compose run --rm phpfpm bash -c '/wait-for-it.sh mysql:3306 -t 20 -- php 
 source clone_widgets.sh
 
 docker-compose run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
+
+# # install all the needed npm stuff
+$USE_SUDO docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm node npm install
+
+# # compile js and css
+$USE_SUDO docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm node gulp js css hash
 
 # run that beast
 echo Materia will be on port 80 at $(docker-machine ip default)
