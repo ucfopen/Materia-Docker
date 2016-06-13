@@ -26,7 +26,8 @@ services:
       - DB_PASS=odin
     volumes:
       - ./app:/var/www/html:rw
-      - ./config/php:/usr/local/etc/php/conf.d:ro
+      - ./config/php/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
+      - ./config/php/php-extensions-runtime.ini:/usr/local/etc/php/conf.d/php-extensions-runtime.ini:ro
       - static_files:/var/www/html/static
       - uploaded_media:/var/www/html/fuel/packages/materia/media
     links:
@@ -44,22 +45,10 @@ services:
       - "3306:3306" # allow mysql access from the host - use /etc/hosts to set mysql to your docker-machine ip
     volumes:
       - "./config/mysql/01_create_test.sql:/docker-entrypoint-initdb.d/01_create_test.sql"
-      - "./config/mysql/dev.my.cnf:/etc/mysql/conf.d/my.cnf"
 
   memcached:
     image: memcached:1.4.25
 
-  # We use a node container to compile js, css, etc
-  node:
-    image: ***REMOVED***/materia-node:latest
-    volumes:
-      - ./app:/var/www/html:rw
-      - static_files:/var/www/html/static:rw
-      - node_modules:/var/www/html/node_modules
-      # - ./config/known_hosts:/root/.ssh/known_hosts:ro
-
 volumes:
   static_files: {} # compiled js/css and uploaded widgets
   uploaded_media: {} # uploaded media files
-  node_modules: {} # node modules for npm
-

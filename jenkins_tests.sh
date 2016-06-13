@@ -1,20 +1,19 @@
 #!/bin/bash
-
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+set -e
 
 # clean migration files
-rm -f $DIR/app/fuel/app/config/development/migrations.php
-rm -f $DIR/app/fuel/app/config/test/migrations.php
+rm -f app/fuel/app/config/development/migrations.php
+rm -f app/fuel/app/config/test/migrations.php
 
 # stop and remove docker containers
-docker-compose stop
-docker-compose rm -f --all
+docker-compose -f docker-compose.yml -f docker-compose.admin.yml stop
+docker-compose -f docker-compose.yml -f docker-compose.admin.yml rm -f --all
 
-docker-compose pull
-docker-compose build mysql
-docker-compose build phpfpm
+docker-compose -f docker-compose.yml -f docker-compose.admin.yml pull
+docker-compose -f docker-compose.yml -f docker-compose.admin.yml build mysql
+docker-compose -f docker-compose.yml -f docker-compose.admin.yml build phpfpm
 
-docker-compose run --rm phpfpm composer install
+docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm phpfpm composer install
 
 # clone the default widgets
 source clone_widgets.sh
