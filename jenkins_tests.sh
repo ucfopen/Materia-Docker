@@ -20,3 +20,7 @@ source clone_widgets.sh
 
 # install widgets and run tests
 source run_tests.sh
+
+# stop and remove docker containers
+docker-compose -f docker-compose.yml -f docker-compose.admin.yml stop
+docker-compose -f docker-compose.yml -f docker-compose.admin.yml rm -f --all
