@@ -52,7 +52,7 @@ Materia set up using as docker containers as close to standard as possible.
 	```
 * Compile the coffeescript and sass
 	```
-	docker-compose run --rm node gulp js css hash
+	./glup_once.sh
 	```
 * Install composer libraries
 	```
