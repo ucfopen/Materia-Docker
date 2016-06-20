@@ -92,9 +92,15 @@ If you wish to log into materia, there are 2 default accounts created for you.
 
 ### Troubleshooting
 
+#### Table Not Found
+
+When running fuelphp's install, it uses fuel/app/config/development/migrations.php file to know the current state of your database. Fuel assumes this file is truth, and won't create tables even on an empty database. You probably need to delete the file and run the setup scripts again.
+
+#### No space left on dev error
+
 If you get a *no space left on dev* error: Remove the machine with `docker-machine rm default` then start over from step 3 in OSX Docker Setup. You may need to attempt the rm command twice before it removes the VM successfully.)
 
-When running fuelphp's install, you may need to make sure the fuel/app/config/dev/migrations.php file is in sync with your database.  If it's a new database, just delete the file.
+
 
 Use `docker-machine ip` and use the database user info from the docker-composer.yml
 
