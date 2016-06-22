@@ -26,12 +26,7 @@ docker-compose run --rm phpfpm composer install
 # sometimes it's left behind when copying or re-installing
 # it needs to be removed for install to work correctly
 if [ -f  app/fuel/app/config/development/migrations.php ]; then
-	echo ==============================================================================
-	echo "skipping inital install"
-	echo "app/fuel/app/config/development/migrations.php exists!"
-	echo "remove it or run 'docker-compose run --rm phpfpm php oil r admin:destroy_everything'"
-	echo ==============================================================================
-	exit
+	rm -f app/fuel/app/config/development/migrations.php
 fi
 
 docker-compose run --rm phpfpm bash -c '/wait-for-it.sh mysql:3306 -t 20 -- php oil r install --install_widgets=false --skip_prompts=true'
