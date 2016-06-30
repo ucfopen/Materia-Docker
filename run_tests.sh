@@ -15,7 +15,7 @@ docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
 
 # run tests!
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
- run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env SKIP_BOOTSTRAP_TASKS=true php oil test --coverage-html=coverage --coverage-text=coverage.txt
+ run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env SKIP_BOOTSTRAP_TASKS=true php oil test --coverage-html=coverage --coverage-clover=coverage.xml --coverage-text=coverage.txt
 
 #cd /home/lst/Desktop/materia-docker/app
 #jasmine-node --coffee --verbose --captureExceptions spec/
