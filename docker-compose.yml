@@ -47,7 +47,7 @@ services:
       - "./config/mysql/01_create_test.sql:/docker-entrypoint-initdb.d/01_create_test.sql"
 
   memcached:
-    image: memcached:1.4.25
+    image: memcached:1.4.27-alpine
 
 volumes:
   static_files: {} # compiled js/css and uploaded widgets
