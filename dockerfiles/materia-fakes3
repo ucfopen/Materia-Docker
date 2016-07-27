@@ -1,0 +1,12 @@
+FROM ruby
+
+# install fake-s3
+RUN gem install fakes3 -v 0.2.4
+
+# run fake-s3
+RUN mkdir -p /s3mnt
+
+# ENTRYPOINT ["/fake-s3/bin/fakes3"]
+
+CMD ["/fake-s3/bin/fakes3", "-r",  "/s3mnt/fakes3_root", "-p", "10001"]
+EXPOSE 10001
