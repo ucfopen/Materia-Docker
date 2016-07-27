@@ -71,9 +71,13 @@ services:
     image: memcached:1.4.27-alpine
 
   fakes3:
-    image: lphoward/fake-s3
+    build:
+      context: .
+      dockerfile: dockerfiles/materia-fakes3
     ports:
       - "4569:4569"
+    volumes:
+      - "./fake-s3:/fake-s3"
 
 volumes:
   static_files: {} # compiled js/css and uploaded widgets
