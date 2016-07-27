@@ -33,8 +33,6 @@ docker-compose run --rm phpfpm bash -c '/wait-for-it.sh mysql:3306 -t 20 -- php 
 
 source clone_widgets.sh
 
-source clone_fakes3.sh
-
 docker-compose run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
 
 # # install all the needed npm stuff
