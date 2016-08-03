@@ -1,0 +1,6 @@
+FROM python:2-onbuild
+
+RUN pip install flask
+RUN pip install requests
+
+CMD [ "python", "./test.py" ]
