@@ -1,2 +1,4 @@
 app/*
-fake-s3/
+venv/
+*.pyc
+.DS_Store
