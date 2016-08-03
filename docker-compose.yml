@@ -55,8 +55,20 @@ services:
       dockerfile: dockerfiles/materia-fakes3
     ports:
       - "10001:10001"
+
+  lambda:
+    build:
+      context: ./lambda
+      dockerfile: materia-lambda
+    ports:
+      - "10002:10002"
     volumes:
-      - "~/Projects/materia_docker/fake-s3:/fake-s3"
+      - "./lambda:/lambda"
+    links:
+      - fakes3
+
+    # command:
+    #   python /lambda/test.py
 
 volumes:
   static_files: {} # compiled js/css and uploaded widgets
