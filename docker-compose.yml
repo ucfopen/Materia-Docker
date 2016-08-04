@@ -62,13 +62,10 @@ services:
       dockerfile: materia-lambda
     ports:
       - "10002:10002"
-    volumes:
-      - "./lambda:/lambda"
     links:
       - fakes3
-
-    # command:
-    #   python /lambda/test.py
+    command:
+      python -u server.py
 
 volumes:
   static_files: {} # compiled js/css and uploaded widgets
