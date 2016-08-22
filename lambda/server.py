@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, redirect
 from util import crossdomain
 import requests
 
@@ -22,6 +22,11 @@ get_event = lambda key: {
       }
    ]
 }
+
+@app.route("/fakes3/<path:key>", methods=["GET"])
+@crossdomain(origin='*')
+def image_get_redirect(key):
+	return redirect("{}/{}".format('http://192.168.99.100:10001/fakes3', key))
 
 @app.route("/fakes3", methods=["POST"])
 @crossdomain(origin='*')
