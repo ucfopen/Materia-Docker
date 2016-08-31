@@ -1,8 +1,9 @@
-FROM php:5.6.19-fpm-alpine
+FROM php:5.6.25-fpm-alpine
 MAINTAINER Ian Turgeon
 
-RUN apk update && apk add \
-  bash \
+RUN apk --no-cache add \
+  autoconf \
+  build-base \
   git \
   libmcrypt-dev \
   libmemcached-dev \
@@ -10,17 +11,8 @@ RUN apk update && apk add \
   libxml2-dev \
   zlib-dev
 
-# PECL Libraries
-# memcached build manually
-RUN docker-php-ext-install \
-	bcmath \
-	gd \
-	mbstring \
-	mcrypt \
-	pdo_mysql \
-	xml \
-	zip \
-	&& pecl download memcached \
+# PHP libs for memcached build manually
+RUN pecl download memcached \
 	&& tar zxvf memcached-2.2.0.tgz \
 	&& cd memcached-2.2.0 \
 	&& phpize \
@@ -30,8 +22,19 @@ RUN docker-php-ext-install \
 	&& docker-php-ext-enable memcached \
 	&& rm -rf /usr/src/php
 
+# PHP Libraries
+RUN docker-php-ext-install \
+	bcmath \
+	gd \
+	mbstring \
+	mcrypt \
+	pdo_mysql \
+	xml \
+	zip \
+	&& rm -rf /usr/src/php
+
 # Make sure composer is installed globally
-RUN bash -c "curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer"
+RUN ash -c "curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer"
 
 # hack to let php write to the shared disk with boot2docker shares
 # files shared from host into a container appear to use a user on host with UID 1000

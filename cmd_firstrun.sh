@@ -29,11 +29,11 @@ if [ -f  app/fuel/app/config/development/migrations.php ]; then
 	rm -f app/fuel/app/config/development/migrations.php
 fi
 
-docker-compose run --rm phpfpm bash -c '/wait-for-it.sh mysql:3306 -t 20 -- php oil r install --install_widgets=false --skip_prompts=true'
+docker-compose run --rm phpfpm ash -c '/wait-for-it.sh mysql:3306 -t 20 -- php oil r install --install_widgets=false --skip_prompts=true'
 
-source clone_widgets.sh
+source cmd_widgets_clone.sh
 
-docker-compose run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
+docker-compose run --rm phpfpm ash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
 
 # # install all the needed npm stuff
 $USE_SUDO docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm node npm install
@@ -42,7 +42,10 @@ $USE_SUDO docker-compose -f docker-compose.yml -f docker-compose.admin.yml run -
 $USE_SUDO docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm node gulp js css hash
 
 # run that beast
-echo Materia will be on port 80 at $(docker-machine ip default)
-echo Run: docker-compose run --rm node gulp js css
-echo or just
-echo docker-compose up
+echo ===================================
+echo All Set, heres some common commands
+echo ===================================
+echo Compile assets: ./cmd_gulp_once.sh
+echo Run tests: ./cmd_tests_run.sh
+echo Install widgets: ./cmd_widget_install.sh
+echo Run server: docker-compose up

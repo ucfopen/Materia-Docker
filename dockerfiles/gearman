@@ -1,0 +1,19 @@
+FROM alpine:3.4
+MAINTAINER Ian Turgeon
+
+RUN echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
+RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+
+RUN apk update
+RUN apk --no-cache add libuuid@edge
+RUN apk --no-cache add \
+	gearman-libs@testing \
+	gearman-dev@testing \
+	gearmand@testing
+
+# link gearman log to stdout for docker logs
+# RUN ln -sf /proc/1/fd/1 /var/log/gearman.log
+
+EXPOSE 4730
+
+CMD ["gearmand", "-p 4730"]

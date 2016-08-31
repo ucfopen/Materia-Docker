@@ -1,7 +1,17 @@
-FROM ***REMOVED***/materia-web:latest
+FROM materia-web:latest
 MAINTAINER Ian Turgeon
 
 RUN pecl install xdebug
+
+RUN echo "@edge http://nl.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
+RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+#RUN apk update
+
+RUN apk --no-cache add \
+	libuuid@edge \
+	gearman-dev@testing
+
+RUN pecl install gearman
 
 # add script that helps us wait for other containers
 COPY config/wait-for-it.sh /wait-for-it.sh

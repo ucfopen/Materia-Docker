@@ -11,7 +11,7 @@ docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
 
 # install all widget files in tmp
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
- run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
+ run --rm phpfpm ash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
 
 # run tests!
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
