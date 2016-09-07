@@ -5,10 +5,9 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from createThumbnail import handler
 
-# Keeps track of the duplicate file registered by filewatcher
-duplicateUpload = True
+is_asset_id = re.compile('^\w{5}\.\w*?$')
 
-get_event = lambda image_path: {
+get_event = lambda image_key: {
    "Records":[
       {
          "s3":{
@@ -16,7 +15,7 @@ get_event = lambda image_path: {
                "name":"fakes3"
             },
             "object":{
-               "path": image_path
+               "key": image_key
             }
          }
       }
@@ -25,15 +24,14 @@ get_event = lambda image_path: {
 
 class MyHandler(FileSystemEventHandler):
     def on_created(self, event):
-        global duplicateUpload
         # filters all filenames that are alphanumeric and then takes the file
         #   with a length of 5
         uploadedFile = os.path.split(event.src_path)[1]
-        if uploadedFile.isalnum() and len(uploadedFile) == 5 and duplicateUpload == True:
-            fakes3_event = get_event(event.src_path)
+        image_key = '/'.join(event.src_path.split('/')[-3:])
+        if is_asset_id.match(uploadedFile):
+            print 'saw file change', image_key
+            fakes3_event = get_event(image_key)
             handler(fakes3_event, None)
-            print 'Created!', os.path.split(event.src_path)[1]
-            duplicateUpload = not duplicateUpload
 
 if __name__ == "__main__":
     path = '../s3mnt/fakes3_root/fakes3/uploads/'

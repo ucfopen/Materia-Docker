@@ -1,3 +1,4 @@
+# import boto3, os, sys, uuid
 import os, sys, uuid
 from PIL import Image
 import PIL.Image
@@ -5,22 +6,28 @@ import PIL.Image
 # set environment, either 'dev' or 'prod'
 ENV = 'dev'
 
-def resize(image_path):
-	print 'path', image_path
-	#os.rename(image_path + '/.fakes3_metadataFFF/content', image_path + '/.fakes3_metadataFFF/content.png')
-	with Image.open(image_path + '/.fakes3_metadataFFF/content') as image:
+def resize(image_path, resized_path):
+	with Image.open(image_path) as image:
 		image.thumbnail(tuple(x / 3 for x in image.size))
-
-		base_path = os.path.split(image_path)[0]
-		base_filename = os.path.split(image_path)[1]
-		resized_filename = "/thumb/resized-" + base_filename
-		resized_path = base_path + resized_filename
-
-		image.save(resized_path, 'png')
+		image.save(resized_path)
 
 def handler(event, context):
 	for record in event['Records']:
 		bucket = record['s3']['bucket']['name']
-		uploaded_image = record['s3']['object']['path']
+		key = record['s3']['object']['key'] 
 
-		resize(uploaded_image)
+		if ENV == 'dev':
+			from fakes3_client import fakes3_client
+			s3_client 		= fakes3_client(key)
+			resized_path 	= s3_client.resized_path
+			download_path 	= s3_client.download_path
+			upload_path		= '' # not used, preset
+
+		if ENV == 'prod':
+			# s3_client = boto3.client('s3')
+			print s3_client.meta.endpoint_url
+
+		s3_client.download_file(bucket, key, download_path)
+		print 'shit worked'
+		resize(download_path, resized_path)
+		s3_client.upload_file(upload_path, '{}resized'.format(bucket), key)
