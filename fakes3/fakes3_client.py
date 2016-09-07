@@ -2,21 +2,22 @@ import io, requests
 
 class fakes3_client:
 	def __init__(self, key):
-		self.endpoint_url = "http://fakes3:10001"
+		self.endpoint_url = "http://127.0.0.1:10001/fakes3"
 		self.key = key
 
 		pathsplit = key.split('/')
 		self.basepath = '/'.join(pathsplit[:-1])
 		self.filename = pathsplit[-1]
 
-		# save everything as jpg for testing, just cuz
 		self.download_path = '{}'.format(self.filename)
 		self.resized_path = 'resize-'+self.download_path
 
 	# get asset from fakes3
 	def download_file(self, bucket, key, download_path):
+		print self.download_path
 		asset_url = "{}/{}".format(self.endpoint_url, self.key)
 		response = requests.get(asset_url)
+		print asset_url
 
 		## download to LFS from response
 		if response.status_code < 300:
@@ -33,11 +34,11 @@ class fakes3_client:
 				'key': new_key
 			}
 
-			filetype = filename.split('.')[1]
+			filetype = key.split('.')[1]
 			response = requests.post(
 				# "http://fakes3:10001/default_bucket", 
 				self.endpoint_url,
-				files=[('file', (filename, stream, filetype))],
+				files=[('file', (new_key, stream, filetype))],
 				data=formData
 			)
 			if response.status_code < 300:
