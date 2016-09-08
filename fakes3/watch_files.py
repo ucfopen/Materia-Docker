@@ -32,7 +32,6 @@ class FileHandler(FileSystemEventHandler):
         # Makes sure a thumbnail of a thumbnail is not being created.
         is_thumb = image_key.find('thumb') != -1
         if is_asset_id.match(uploadedFile) and not is_thumb:
-            print "IMAGE KEY: ", image_key
             fakes3_event = get_event(image_key)
             handler(fakes3_event, None)
 
