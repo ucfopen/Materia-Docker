@@ -14,7 +14,7 @@ def resize(image_path, resized_path):
 def handler(event, context):
 	for record in event['Records']:
 		bucket = record['s3']['bucket']['name']
-		key = record['s3']['object']['key'] 
+		key = record['s3']['object']['key']
 
 		if ENV == 'dev':
 			from fakes3_client import fakes3_client
@@ -28,6 +28,5 @@ def handler(event, context):
 			print s3_client.meta.endpoint_url
 
 		s3_client.download_file(bucket, key, download_path)
-		print 'shit worked'
 		resize(download_path, resized_path)
 		s3_client.upload_file(upload_path, '{}resized'.format(bucket), key)
