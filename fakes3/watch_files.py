@@ -28,8 +28,8 @@ class MyHandler(FileSystemEventHandler):
         #   with a length of 5
         uploadedFile = os.path.split(event.src_path)[1]
         image_key = '/'.join(event.src_path.split('/')[-3:])
-        if is_asset_id.match(uploadedFile):
-            print 'saw file change', image_key
+        is_thumb = image_key.find('thumb') != -1
+        if is_asset_id.match(uploadedFile) and not is_thumb:
             fakes3_event = get_event(image_key)
             handler(fakes3_event, None)
 

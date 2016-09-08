@@ -19,7 +19,7 @@ class fakes3_client:
 		response = requests.get(asset_url)
 		print asset_url
 
-		## download to LFS from response
+		## download to local FS from response
 		if response.status_code < 300:
 			with open(self.download_path, 'wb') as f:
 				f.write(response.content)
