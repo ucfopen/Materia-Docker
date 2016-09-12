@@ -1,5 +1,4 @@
-# import boto3, os, sys, uuid
-import os, sys, uuid
+import os, sys
 from PIL import Image
 import PIL.Image
 
@@ -25,8 +24,10 @@ def handler(event, context):
 
 		if ENV == 'prod':
 			# s3_client = boto3.client('s3')
-			print s3_client.meta.endpoint_url
+			print 'ENDPOINT', s3_client.meta.endpoint_url
 
 		s3_client.download_file(bucket, key, download_path)
 		resize(download_path, resized_path)
-		s3_client.upload_file(upload_path, '{}resized'.format(bucket), key)
+		asset_path = os.path.split(key)
+		s3_client.upload_file(upload_path,
+			'{}/{}/thumb/'.format(bucket, asset_path[0]), asset_path[1])
