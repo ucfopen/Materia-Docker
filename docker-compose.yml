@@ -61,17 +61,6 @@ services:
     command:
       bash -c "/usr/local/bundle/gems/fakes3-0.2.4/bin/fakes3 -r /s3mnt/fakes3_root -p 10001 & python -u fakes3/watch_files.py"
 
-  # lambda:
-  #   build:
-  #     context: ./lambda
-  #     dockerfile: materia-lambda
-  #   ports:
-  #     - "10002:10002"
-  #   links:
-  #     - fakes3
-  #   command:
-  #     python -u server.py
-
 volumes:
   static_files: {} # compiled js/css and uploaded widgets
   uploaded_media: {} # uploaded media files
