@@ -1,9 +1,9 @@
-import os, sys
+import os, sys#, boto3
 from PIL import Image
 import PIL.Image
 
 # set environment, either 'dev' or 'prod'
-ENV = 'dev'
+development = True
 
 def resize(image_path, resized_path):
 	with Image.open(image_path) as image:
@@ -15,15 +15,14 @@ def handler(event, context):
 		bucket = record['s3']['bucket']['name']
 		key = record['s3']['object']['key']
 
-		if ENV == 'dev':
+		if development:
 			from fakes3_client import fakes3_client
 			s3_client 		= fakes3_client(key)
 			resized_path 	= s3_client.resized_path
 			download_path 	= s3_client.download_path
 			upload_path		= '' # not used, preset
-
-		if ENV == 'prod':
-			# s3_client = boto3.client('s3')
+		else:
+			s3_client = boto3.client('s3')
 			print 'ENDPOINT', s3_client.meta.endpoint_url
 
 		s3_client.download_file(bucket, key, download_path)
