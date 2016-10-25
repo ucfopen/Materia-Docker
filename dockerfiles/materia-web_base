@@ -1,8 +1,10 @@
-FROM php:5.6.19-fpm-alpine
+FROM php:7.0.10-fpm-alpine
 MAINTAINER Ian Turgeon
 
-RUN apk update && apk add \
+RUN apk add --no-cache \
+  autoconf \
   bash \
+  build-base \
   git \
   libmcrypt-dev \
   libmemcached-dev \
@@ -20,9 +22,11 @@ RUN docker-php-ext-install \
 	pdo_mysql \
 	xml \
 	zip \
-	&& pecl download memcached \
-	&& tar zxvf memcached-2.2.0.tgz \
-	&& cd memcached-2.2.0 \
+	&& rm -rf /usr/src/php
+
+RUN git clone https://github.com/php-memcached-dev/php-memcached.git \
+	&& cd php-memcached \
+	&& git checkout php7 \
 	&& phpize \
 	&& ./configure --disable-memcached-sasl \
 	&& make \
