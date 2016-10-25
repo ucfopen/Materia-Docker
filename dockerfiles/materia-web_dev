@@ -1,4 +1,4 @@
-FROM ***REMOVED***/materia-web:latest
+FROM ***REMOVED***/materia-web:7.0.10-fpm-alpine
 MAINTAINER Ian Turgeon
 
 RUN pecl install xdebug
