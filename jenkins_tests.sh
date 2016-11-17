@@ -15,9 +15,6 @@ docker-compose -f docker-compose.yml -f docker-compose.admin.yml build phpfpm
 
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm phpfpm composer install
 
-# clone the default widgets
-source clone_widgets.sh
-
 # install widgets and run tests
 source run_tests.sh
 
