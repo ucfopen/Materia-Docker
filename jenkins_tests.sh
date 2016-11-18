@@ -16,7 +16,7 @@ docker-compose -f docker-compose.yml -f docker-compose.admin.yml build phpfpm
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm phpfpm composer install
 
 # install widgets and run tests
-source run_tests.sh
+source ./run_tests.sh
 
 # stop and remove docker containers
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml stop
