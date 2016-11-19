@@ -5,13 +5,17 @@ set -e
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
  run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- php oil r admin:destroy_everything --quiet
 
-# isntall everything
+# install everything
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
  run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- php oil r install --install_widgets=false --skip_prompts=true
 
+#Uncomment this if a failure to unpackage a widget has broken the test pipeline. Specific use case only.
+#docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
+# run --rm phpfpm bash -c -e 'rm /var/www/html/fuel/packages/materia/vendor/widget/test/* || true'
+
 # install all widget files in tmp
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
- run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
+ run --rm phpfpm bash -c 'php oil r widget:install fuel/packages/materia/tests/widget_packages/*.wigt'
 
 # run tests!
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
