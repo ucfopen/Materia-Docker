@@ -36,7 +36,7 @@ source clone_widgets.sh
 docker-compose run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
 
 # # install all the needed npm stuff
-$USE_SUDO docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm node npm install
+$USE_SUDO docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm node yarn --pure-lockfile --force
 
 # # compile js and css
 $USE_SUDO docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm node gulp js css hash
