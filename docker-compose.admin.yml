@@ -13,7 +13,7 @@ services:
 
   # We use a node container to compile js, css, etc
   node:
-    image: ***REMOVED***/materia-node:latest
+    image: ***REMOVED***/materia-node:2.0.0
     volumes:
       - ./app:/var/www/html:rw
       - static_files:/var/www/html/static:rw

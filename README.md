@@ -78,7 +78,14 @@ Materia set up using as docker containers as close to standard as possible.
     cd ~/my_projects/materia_docker
     ./install_widget my_widget.wigt
     ```
-
+* Installing test widgets?
+    ```
+    traverse to app/fuel/packages/materia/test/widget_source/
+    Update test widgets as desired.
+    traverse into the widget folder.
+    read build instructions in that widget's README.md
+    Note: these widget are necessary when running run_tests.sh
+    ```
 ### Default User Accounts
 
 If you wish to log into materia, there are 2 default accounts created for you.
