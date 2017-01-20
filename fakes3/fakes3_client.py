@@ -8,9 +8,8 @@ class fakes3_client:
 	def __init__(self, key):
 		self.endpoint_url = "http://127.0.0.1:10001/fakes3"
 		self.key = key
-
 		pathsplit = key.split('/')
-		self.basepath = '/'.join(pathsplit[:-1])
+		self.basepath = '/'.join(pathsplit[-2:])
 		self.filename = pathsplit[-1]
 
 		self.download_path = '{}'.format(self.filename)
@@ -30,7 +29,7 @@ class fakes3_client:
 
 
 	def upload_file(self, upload_path, filename, key):
-		new_key = '{}/thumb/{}'.format(self.basepath, self.filename)
+		new_key = '/thumbnails/{}'.format(self.basepath)
 		with open(self.resized_path, 'rb') as f:
 			stream = io.BytesIO(f.read())
 			formData = headers = {

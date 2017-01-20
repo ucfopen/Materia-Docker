@@ -28,6 +28,7 @@ class FileHandler(FileSystemEventHandler):
 
         # Creates a relative path to the created file within the filesystem
         image_key = '/'.join(event.src_path.split('/')[-3:])
+        print "IMAGE KEY: " + image_key;
 
         # Makes sure a thumbnail of a thumbnail is not being created.
         is_thumb = image_key.find('thumb') != -1
@@ -36,7 +37,7 @@ class FileHandler(FileSystemEventHandler):
             handler(fakes3_event, None)
 
 if __name__ == "__main__":
-    path_being_watched = '../s3mnt/fakes3_root/fakes3/uploads/'
+    path_being_watched = '../s3mnt/fakes3_root/fakes3/dev_uploads/'
     event_handler = FileHandler()
     observer = Observer()
     observer.schedule(event_handler, path_being_watched, recursive=True)

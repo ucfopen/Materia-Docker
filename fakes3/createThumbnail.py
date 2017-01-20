@@ -23,10 +23,9 @@ def handler(event, context):
 			upload_path		= '' # not used, preset
 		else:
 			s3_client = boto3.client('s3')
-			print 'ENDPOINT', s3_client.meta.endpoint_url
 
 		s3_client.download_file(bucket, key, download_path)
 		resize(download_path, resized_path)
 		asset_path = os.path.split(key)
 		s3_client.upload_file(upload_path,
-			'{}/{}/thumb/'.format(bucket, asset_path[0]), asset_path[1])
+			'{}/thumbnails/{}/'.format(bucket, os.path.split(asset_path[0])[1]), asset_path[1])
