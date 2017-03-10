@@ -34,7 +34,7 @@ class FileHandler(FileSystemEventHandler):
             upload_thumbnail(fakes3_event, None)
 
 if __name__ == "__main__":
-    path_being_watched = '../s3mnt/fakes3_root/fakes3/uploads/'
+    path_being_watched = '../s3mnt/fakes3_root/'
     event_handler = FileHandler()
     observer = Observer()
     observer.schedule(event_handler, path_being_watched, recursive=True)
