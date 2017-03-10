@@ -12,7 +12,6 @@ class fakes3_client:
 	# get asset from fakes3
 	def get_object(self, Bucket, Key):
 		asset_url = "{}/{}".format(self.endpoint_url, Key)
-		print asset_url
 		response = requests.get(asset_url)
 
 		## download to local FS from response
@@ -28,9 +27,9 @@ class fakes3_client:
 		}
 
 		filetype = Key.split('.')[1]
-
+		
 		response = requests.post(
-			"{}/{}/".format(self.endpoint_url, Key),
+			"{}/{}/{}/".format(self.endpoint_url, Bucket, Key),
 			files=[('file', (Key, Fileobj, filetype))],
 			data=formData
 		)
