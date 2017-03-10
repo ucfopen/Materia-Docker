@@ -53,6 +53,11 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/materia-fakes3
+    environment:
+      - OUTPUT_BUCKET=fakes3
+      - OUTPUT_BASE_KEY=thumbnails/
+      - OUTPUT_MAX_WIDTH=75
+      - OUTPUT_MAX_HEIGHT=75
     ports:
       - "10001:10001"
     volumes:
