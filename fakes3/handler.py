@@ -47,8 +47,8 @@ def upload_thumbnail(event, context):
 		image.save(resized_image_data, extension)
 		image.close()
 
-		# image.save is not seeking to beginning of buffer upon completition
-        # manual reset
+		# image.save is not seeking to beginning of buffer upon completion
+        # this is a manual reset
 		resized_image_data.seek(0)
 
 		output_key = output_base_key+filename
