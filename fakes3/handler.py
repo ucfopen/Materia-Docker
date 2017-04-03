@@ -51,6 +51,6 @@ def upload_thumbnail(event, context):
         # this is a manual reset
 		resized_image_data.seek(0)
 
-		output_key = output_base_key+filename
+		output_key = base+"-"+output_base_key+"."+extension.lower()
 		s3_client.upload_fileobj(Fileobj=resized_image_data,
                                  Bucket=output_bucket, Key=output_key)
