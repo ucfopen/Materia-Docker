@@ -55,9 +55,7 @@ services:
       dockerfile: dockerfiles/materia-fakes3
     environment:
       - OUTPUT_BUCKET=fakes3_assets
-      - OUTPUT_BASE_KEY=thumbnails/
-      - OUTPUT_MAX_WIDTH=75
-      - OUTPUT_MAX_HEIGHT=75
+      - OUTPUT_MAX_DIMENSIONS=75x75,100x100,250x100,1000x1000
     ports:
       - "10001:10001"
     volumes:
