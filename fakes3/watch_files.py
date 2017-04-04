@@ -5,6 +5,7 @@ from watchdog.events import FileSystemEventHandler
 from handler import upload_thumbnail
 
 is_asset_id = re.compile('\w\-(\w{5})\.')
+is_resized = re.compile('\w\-(\w{5})-\w+x\w+.')
 
 # Creates an object that mocks the event object sent to lambda from Fakes3
 get_event = lambda image_key: {
@@ -25,13 +26,28 @@ get_event = lambda image_key: {
 class FileHandler(FileSystemEventHandler):
     def on_created(self, event):
         uploadedFile = os.path.split(event.src_path)[1]
+        sizes = os.environ['OUTPUT_MAX_DIMENSIONS']
+        sizeArray = sizes.split(',')
+
         # Creates a relative path to the created file within the filesystem
         image_key = '/'.join(event.src_path.split('/')[-3:])
-        # Makes sure a thumbnail of a thumbnail is not being created.
-        is_thumb = image_key.find('thumbnails') != -1
-        if is_asset_id.match(uploadedFile) and not is_thumb:
-            fakes3_event = get_event(image_key)
-            upload_thumbnail(fakes3_event, None)
+
+        if is_asset_id.match(uploadedFile) and not is_resized.match(uploadedFile):
+            for size in sizeArray:
+                # separates width and height to be used as two separate variables
+                currentSize = size.split('x')
+
+                # added to filename to identify size
+                os.environ['MAX_SIZE'] = size
+
+                # manipulating environment variables to simulate lambda's multiple environments
+                os.environ['OUTPUT_MAX_WIDTH'] = currentSize[0]
+                os.environ['OUTPUT_MAX_HEIGHT'] = currentSize[1]
+
+                fakes3_event = get_event(image_key)
+
+                # the handler never has to change because the environment it runs in is changing
+                upload_thumbnail(fakes3_event, None)
 
 if __name__ == "__main__":
     path_being_watched = '../s3mnt/fakes3_root/'
