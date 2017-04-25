@@ -55,12 +55,13 @@ services:
       dockerfile: dockerfiles/materia-fakes3
     environment:
       - OUTPUT_BUCKET=fakes3_assets
-      - OUTPUT_MAX_DIMENSIONS=75x75,100x100,250x100,1000x1000
+      - OUTPUT_MAX_DIMENSIONS=1200x1200,75x75
+      - OUTPUT_BASE_KEY=media
     ports:
       - "10001:10001"
     volumes:
       - "./fakes3:/fakes3"
-      - uploaded_media:/s3mnt/fakes3_root/fakes3_uploads/uploads/
+      - uploaded_media:/s3mnt/fakes3_root/fakes3_uploads/media/
     command:
       bash -c "/usr/local/bundle/gems/fakes3-0.2.4/bin/fakes3 -r /s3mnt/fakes3_root -p 10001 & python -u fakes3/watch_files.py"
 
