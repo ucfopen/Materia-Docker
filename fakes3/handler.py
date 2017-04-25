@@ -17,9 +17,10 @@ def upload_thumbnail(event, context):
 
 		# build up the output variables
 		output_bucket = os.environ['OUTPUT_BUCKET']
-		max_size = os.environ['MAX_SIZE']
+		max_size = os.environ['OUTPUT_MAX_HEIGHT'] + "x" + os.environ['OUTPUT_MAX_WIDTH']
 		output_size = int(os.environ['OUTPUT_MAX_HEIGHT']), \
 			int(os.environ['OUTPUT_MAX_WIDTH'])
+		output_key = os.environ['OUTPUT_BASE_KEY']
 
 		filename = os.path.basename(source_key)
 		base, extension = os.path.splitext(filename)
@@ -51,6 +52,6 @@ def upload_thumbnail(event, context):
         # this is a manual reset
 		resized_image_data.seek(0)
 
-		output_key = base+"-"+max_size+"."+extension.lower()
+		output_key = output_key+"/"+base+"-"+max_size+"."+extension.lower()
 		s3_client.upload_fileobj(Fileobj=resized_image_data,
                                  Bucket=output_bucket, Key=output_key)
