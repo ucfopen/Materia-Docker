@@ -1,1 +1,4 @@
 app/*
+venv/
+*.pyc
+.DS_Store
