@@ -1,0 +1,17 @@
+FROM ruby
+
+RUN apt-get update && apt-get install -y \
+python \
+python-dev \
+python-pip \
+python-PIL
+
+RUN pip install watchdog
+
+# install fake-s3
+RUN gem install fakes3 -v 0.2.4
+
+# run fake-s3
+RUN mkdir -p /s3mnt
+
+EXPOSE 10001

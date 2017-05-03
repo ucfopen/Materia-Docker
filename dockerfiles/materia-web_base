@@ -6,14 +6,18 @@ RUN apk add --no-cache \
   bash \
   build-base \
   git \
+  libjpeg-turbo-dev \
   libmcrypt-dev \
   libmemcached-dev \
   libpng-dev \
   libxml2-dev \
   zlib-dev
 
+
 # PECL Libraries
 # memcached build manually
+RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/include
+
 RUN docker-php-ext-install \
 	bcmath \
 	gd \
