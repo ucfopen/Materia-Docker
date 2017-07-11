@@ -2,8 +2,8 @@
 set -e
 
 # clean migration files
-rm -f app/fuel/app/config/development/migrations.php
-rm -f app/fuel/app/config/test/migrations.php
+rm -f $DIR/app/fuel/app/config/development/migrations.php
+rm -f $DIR/app/fuel/app/config/test/migrations.php
 
 # stop and remove docker containers
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml stop
