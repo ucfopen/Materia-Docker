@@ -46,7 +46,7 @@ docker-compose run --rm phpfpm bash -c '/wait-for-it.sh mysql:3306 -t 20 -- php 
 docker-compose run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
 
 # # install all the needed npm stuff
-$USE_SUDO $NODE_DC_COMMAND run --rm node yarn install --no-progress --pure-lockfile --force
+$USE_SUDO $NODE_DC_COMMAND run --rm node yarn install --pure-lockfile --force
 
 # # compile js and css
 $USE_SUDO $NODE_DC_COMMAND run --rm node gulp js css hash

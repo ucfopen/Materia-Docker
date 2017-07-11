@@ -7,7 +7,7 @@ docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
 
 # install everything
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
- run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- php oil r install --install_widgets=false --skip_prompts=true
+ run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- php oil r install --skip_prompts=true --skip_configuration_wizard
 
 #Uncomment this if a failure to unpackage a widget has broken the test pipeline. Specific use case only.
 #docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
@@ -21,5 +21,3 @@ docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
 docker-compose -f docker-compose.yml -f docker-compose.admin.yml \
  run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env SKIP_BOOTSTRAP_TASKS=true php oil test --coverage-html=coverage --coverage-clover=coverage.xml --coverage-text=coverage.txt
 
-#cd /home/lst/Desktop/materia-docker/app
-#jasmine-node --coffee --verbose --captureExceptions spec/
