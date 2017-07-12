@@ -49,7 +49,7 @@ docker-compose run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/wi
 $USE_SUDO $NODE_DC_COMMAND run --rm node yarn install --pure-lockfile --force
 
 # # compile js and css
-$USE_SUDO $NODE_DC_COMMAND run --rm node gulp js css hash
+$USE_SUDO $NODE_DC_COMMAND run --rm node yarn run assets
 
 # run that beast
 # Use docker or set up the docker-machine environment
