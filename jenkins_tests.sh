@@ -5,19 +5,22 @@ set -e
 rm -f $DIR/app/fuel/app/config/development/migrations.php
 rm -f $DIR/app/fuel/app/config/test/migrations.php
 
+# store the docker compose command to shorten the following commands
+DC="docker-compose -f docker-compose.yml -f docker-compose.admin.yml"
+
 # stop and remove docker containers
-docker-compose -f docker-compose.yml -f docker-compose.admin.yml stop
-docker-compose -f docker-compose.yml -f docker-compose.admin.yml rm -f --all
+$DC stop
+$DC rm -f --all
 
-docker-compose -f docker-compose.yml -f docker-compose.admin.yml pull
-docker-compose -f docker-compose.yml -f docker-compose.admin.yml build mysql
-docker-compose -f docker-compose.yml -f docker-compose.admin.yml build phpfpm
+$DC pull
+$DC build mysql
+$DC build phpfpm
 
-docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm phpfpm composer install
+$DC run --rm phpfpm composer install
 
 # install widgets and run tests
 source ./run_tests.sh
 
 # stop and remove docker containers
-docker-compose -f docker-compose.yml -f docker-compose.admin.yml stop
-docker-compose -f docker-compose.yml -f docker-compose.admin.yml rm -f --all
+$DC stop
+$DC rm -f --all

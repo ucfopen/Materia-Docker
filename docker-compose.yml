@@ -8,9 +8,11 @@ services:
       - "8008:8008" # static files
     volumes:
       - ./app/public:/var/www/html/public:ro
-      - static_files:/usr/share/static:ro
       - uploaded_media:/usr/share/media:ro
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - static_files:/usr/share/static:ro
+      # replace static_files with this line to mount the host machine's static dir
+      # - ./app/static:/usr/share/static:ro
     links:
       - phpfpm
 
@@ -28,8 +30,10 @@ services:
       - ./app:/var/www/html:rw
       - ./config/php/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
       - ./config/php/php-extensions-runtime.ini:/usr/local/etc/php/conf.d/php-extensions-runtime.ini:ro
-      - static_files:/var/www/html/static
       - uploaded_media:/var/www/html/fuel/packages/materia/media
+      - static_files:/var/www/html/static
+      # replace static_files with this line to mount the host machine's static dir
+      # - ./app/static:/var/www/html/static
     links:
       - mysql
       - memcached
