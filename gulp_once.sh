@@ -1,3 +1,3 @@
 #!/bin/bash
 set -e
-docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm node gulp js css hash
+docker-compose -f docker-compose.yml -f docker-compose.admin.yml run --rm node yarn run assets
