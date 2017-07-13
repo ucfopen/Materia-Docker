@@ -11,12 +11,6 @@ services:
       - uploaded_media_test:/var/www/html/fuel/packages/materia/media
     command: echo "yay"
 
-  mysql:
-    environment:
-      - MYSQL_DATABASE=test
-    volumes:
-      - "./config/mysql/dev.my.cnf:/etc/mysql/conf.d/dev.cnf"
-
   # We use a node container to compile js, css, etc
   node:
     image: ***REMOVED***/materia-node:2.0.0
