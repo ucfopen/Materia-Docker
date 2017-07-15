@@ -1,12 +1,11 @@
 version: '2'
-
+# Docker Compose file meant for tasks like building assets and running tests
 services:
 
   phpfpm:
     environment:
       - FUEL_ENV=test
     volumes:
-      - ./config/php/php-extensions-test.ini:/usr/local/etc/php/conf.d/php-extensions-test.ini:ro
       - static_files_test:/var/www/html/static
       - uploaded_media_test:/var/www/html/fuel/packages/materia/media
     command: echo "yay"

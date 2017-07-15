@@ -40,7 +40,7 @@ Materia set up using as docker containers as close to standard as possible.
 3. Run the first run script to build and prepare the server.
 
 	```
-	./firstrun.sh
+	./run_first.sh
 	```
 	It'll clone Materia, build the docker containers, and install all the dependencies.
 
@@ -52,7 +52,7 @@ Materia set up using as docker containers as close to standard as possible.
 	```
 * Compile the coffeescript and sass
 	```
-	./glup_once.sh
+	./run_glup_once.sh
 	```
 * Install composer libraries
 	```
@@ -60,11 +60,11 @@ Materia set up using as docker containers as close to standard as possible.
 	```
 * Clone main materia widgets packages into fuel/app/tmp/widget_packages/*.wigt
 	```
-	./clone_widgets.sh
+	./run_widgets_build.sh
 	```
 * Install all Widgets in fuel/app/tmp/widget_packages/*.wigt
 	```
-	./install_widget.sh '*.wigt'
+	./run_widgets_install.sh '*.wigt'
 	```
 
 * What ip address my server on?
@@ -76,7 +76,7 @@ Materia set up using as docker containers as close to standard as possible.
     ```
     cp my_widget.wigt ~/my_projects/materia_docker/app/fuel/app/tmp
     cd ~/my_projects/materia_docker
-    ./install_widget my_widget.wigt
+    ./run_widgets_install.sh my_widget.wigt
     ```
 * Installing test widgets?
     ```
@@ -114,10 +114,10 @@ Use `docker-machine ip` and use the database user info from the docker-composer.
 Run oil commands: `docker-compose run --rm phpfpm php oil ......`
 
 You can clone the repositories from the repositories from the materia widget config:
-`./clone_widgets.sh`
+`./run_build_widgets.sh`
 
 Then install them all
-`./install_widget '*.wigt'`
+`./run_widgets_install.sh '*.wigt'`
 
 ### Optional
 
