@@ -1,11 +1,20 @@
 #!/bin/bash
+#######################################################
+# ABOUT THIS SCRIPT
+#
+# Clone and build widgets.
+#
+# 1. Find widget git repos in ./config/clone_widgets_list.txt
+# 2. Clone each git repository found
+# 3. Run yarn install
+# 4. Run yarn build
+# 5. Copy the widget package to app/fuel/app/tmp/widget_packages/
+#
+# Runs in your current bash, you'll need node and yarn
+#
+# EX: ./run_widgets_build.sh
+#######################################################
 
-# CLONE AND BUILD WIDGETS
-# This script will dig through ./clone_widgets_list.txt and
-# clone any repositories listed there, build them, and copy
-# the widget package into app/fuel/app/tmp/widget_packages/
-# Runs in the context of your current bash, so you'll
-# need node and yarn installed wherever you run this script
 
 set -e
 
@@ -18,7 +27,7 @@ fi
 rm -rf app/fuel/app/tmp/widget_packages/*
 
 echo Reading widget list from clone_widgets_list.txt
-WIDGETS=$(grep -oh '\<git.*\.git\>' ./clone_widgets_list.txt)
+WIDGETS=$(grep -oh '\<git.*\.git\>' ./config/clone_widgets_list.txt)
 
 # Hack to work with goofy old gulp code that had devMateria dependencies
 mkdir -p app/fuel/app/backend
