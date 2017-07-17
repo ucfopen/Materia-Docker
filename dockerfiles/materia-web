@@ -2,16 +2,18 @@ FROM php:7.0.10-fpm-alpine
 MAINTAINER Ian Turgeon
 
 RUN apk add --no-cache \
-  autoconf \
-  bash \
-  build-base \
-  git \
-  libjpeg-turbo-dev \
-  libmcrypt-dev \
-  libmemcached-dev \
-  libpng-dev \
-  libxml2-dev \
-  zlib-dev
+	autoconf \
+	bash \
+	build-base \
+	cyrus-sasl-dev \
+	freetype \
+	git \
+	libjpeg-turbo-dev \
+	libmcrypt-dev \
+	libmemcached-dev \
+	libpng-dev \
+	libxml2-dev \
+	zlib-dev
 
 
 # PECL Libraries
@@ -28,11 +30,11 @@ RUN docker-php-ext-install \
 	zip \
 	&& rm -rf /usr/src/php
 
-RUN git clone https://github.com/php-memcached-dev/php-memcached.git \
+RUN git clone -b v3.0.2 https://github.com/php-memcached-dev/php-memcached.git \
 	&& cd php-memcached \
 	&& git checkout php7 \
 	&& phpize \
-	&& ./configure --disable-memcached-sasl \
+	&& ./configure \
 	&& make \
 	&& make install \
 	&& docker-php-ext-enable memcached \
@@ -47,3 +49,9 @@ RUN bash -c "curl -sS https://getcomposer.org/installer | php && mv composer.pha
 # so, this changes www-data's uid to 1000
 # RUN usermod -u 1000 www-data
 RUN sed -i "s/^www-data:x:[0-9]*/www-data:x:1000/" /etc/passwd
+
+RUN pecl install xdebug
+
+# add script that helps us wait for other containers
+COPY config/wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh

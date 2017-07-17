@@ -1,8 +1,0 @@
-FROM ***REMOVED***/materia-web:7.0.10-fpm-alpine
-MAINTAINER Ian Turgeon
-
-RUN pecl install xdebug
-
-# add script that helps us wait for other containers
-COPY config/wait-for-it.sh /wait-for-it.sh
-RUN chmod +x /wait-for-it.sh

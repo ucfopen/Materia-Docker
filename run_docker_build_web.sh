@@ -11,10 +11,10 @@
 set -e
 
 BOX_NAME="materia-web"
-DOCKERFILE="dockerfiles/materia-web_base"
+DOCKERFILE="dockerfiles/materia-web"
 DCR="***REMOVED***"
 
-docker build -t $BOX_NAME:latest -f dockerfiles/$BOX_NAME .
+docker build -t $BOX_NAME:latest -f $DOCKERFILE .
 
 echo "==================================================="
 echo "To tag the latest build as a specific version, use:"
