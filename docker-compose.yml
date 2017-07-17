@@ -7,9 +7,9 @@ services:
       - "80:80" # main materia
       - "8008:8008" # static files
     volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./app/public:/var/www/html/public:ro
       - uploaded_media:/usr/share/media:ro
-      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - static_files:/usr/share/static:ro
       # replace static_files with this line to mount the host machine's static dir
       # - ./app/static:/usr/share/static:ro
@@ -39,7 +39,7 @@ services:
       - memcached
 
   mysql:
-    image: mysql:5.5.47
+    image: mysql:5.7.18
     environment:
       - MYSQL_ROOT_PASSWORD=drRoots
       - MYSQL_USER=materia
