@@ -1,4 +1,27 @@
 #!/bin/bash
+#!/bin/bash
+#######################################################
+# ABOUT THIS SCRIPT
+#
+# Initializes a new Materia environment in Docker
+
+# 1. Clone materia into ./app/
+# 2. Get a local copy of the current Docker Images
+# 3. Build any Docker Images we need to
+# 4. Create the containers
+# 5. Install php composer dependencies
+# 6. Clean the migration files
+# 7. Run Materia installer
+# 8. Install any widgets in fuel/app/tmp/widget_packages/
+# 9. Use Yarn to install js dependencies
+# 10. Use Yarn to build js and css
+#
+# If you find you really need to burn everything down
+# Run "docker-compose down" to get rid of all containers
+#
+# Materia only comes with 2 bare bones widgets for unit tests
+# Build your own using ./run_widgets_build.sh
+#######################################################
 set -e
 
 NODE_DC_COMMAND="docker-compose -f docker-compose.yml -f docker-compose.admin.yml"
@@ -39,9 +62,7 @@ if [ -f  app/fuel/app/config/development/migrations.php ]; then
 	rm -f app/fuel/app/config/development/migrations.php
 fi
 
-docker-compose run --rm phpfpm bash -c '/wait-for-it.sh mysql:3306 -t 20 -- php oil r install --skip_prompts=true --skip_configuration_wizard'
-
-# source clone_widgets.sh
+docker-compose run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- composer oil-install-quiet
 
 docker-compose run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
 

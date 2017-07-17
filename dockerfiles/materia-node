@@ -8,13 +8,7 @@ RUN apt-get update && apt-get install -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN npm install --global yarn
-
-RUN yarn global add \
-  bower \
-  grunt-cli \
-  gulp \
-  jasmine-node
+RUN npm install --global yarn@v0.28.1
 
 WORKDIR /var/www/html
 
