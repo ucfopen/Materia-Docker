@@ -2,7 +2,7 @@
 #######################################################
 # ABOUT THIS SCRIPT
 #
-# Run ad hoc commands on the phpfpm container
+# Run ad hoc commands on the phpfpm container (non-test env)
 #
 # Arguments are executed string
 # EX: ./run.sh echo "hello"
@@ -12,6 +12,4 @@
 
 set -e
 
-DC="docker-compose -f docker-compose.yml -f docker-compose.admin.yml"
-
-$DC run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env COMPOSER_ALLOW_SUPERUSER=1 "$@"
+docker-compose run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env COMPOSER_ALLOW_SUPERUSER=1 "$@"
