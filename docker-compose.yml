@@ -17,9 +17,7 @@ services:
       - phpfpm
 
   phpfpm:
-    build:
-      context: .
-      dockerfile: dockerfiles/materia-web_dev
+    image: ***REMOVED***/materia-web:7.0.10-fpm-alpine2
     environment:
       - FUEL_ENV=development
       - DB_HOST=mysql

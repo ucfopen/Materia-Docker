@@ -7,4 +7,4 @@ set -e
 # store the docker compose command to shorten the following commands
 DC="docker-compose -f docker-compose.yml -f docker-compose.admin.yml"
 
-$DC run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env COMPOSER_ALLOW_SUPERUSER=1 composer run test -- "$@"
+$DC run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env COMPOSER_ALLOW_SUPERUSER=1 composer run testci -- "$@"
