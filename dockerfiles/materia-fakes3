@@ -1,12 +1,16 @@
 FROM ruby:2.3.4-alpine
 
 RUN apk add --no-cache \
+  build-base \
+  libjpeg-turbo-dev \
   python \
   python-dev \
   py-pip \
   bash
 
 RUN pip install watchdog
+RUN pip install requests
+RUN pip install Pillow
 
 # install fake-s3
 RUN gem install fakes3 -v 0.2.4
