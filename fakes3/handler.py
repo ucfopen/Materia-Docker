@@ -44,7 +44,7 @@ def upload_thumbnail(event, context):
         base, extension = os.path.splitext(filename)
         extension = extension[1:].upper()
 
-        if extension not in ['JPEG', 'JPG', 'PNG', 'GIF']:
+        if extension not in ['JPEG', 'JPG', 'PNG', 'GIF', 'MP3', 'WAV']:
             print "Uploaded file extension is not supported: %s" % extension
             return None
 
@@ -54,6 +54,13 @@ def upload_thumbnail(event, context):
         # Download the image from s3 into memory
         uploaded_object = s3_client.get_object(Bucket=source_bucket,
                                                Key=source_key)
+
+        if extension == 'MP3' or extension == 'WAV':
+            audio_output_key = original_output_key = output_key + \
+                "/" + base + "." + extension.lower()
+            s3_client.upload_fileobj(Fileobj=uploaded_object,
+                                     Bucket=output_bucket, Key=audio_output_key)
+            return
 
         # body is a file like object
         uploaded_object_body = uploaded_object['Body']
