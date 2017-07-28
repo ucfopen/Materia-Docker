@@ -24,7 +24,7 @@ Materia set up using as docker containers as close to standard as possible.
 1. Install aws command line tools `brew install awscli`
 2. Set up your aws creds - obtain your **super secret** key/secret pair
 3. Run `aws configure` and give it your secrets.  Enter `us-east-1` for region
-4. Run `$(aws ecr get-login)`
+4. Run `$(aws ecr get-login --no-include-emai)`
 5. This log in is temporary, and may need to be run again to download more docker images
 
 ### Setting up the Development Materia Docker Server
