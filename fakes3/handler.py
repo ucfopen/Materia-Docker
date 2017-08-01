@@ -58,7 +58,7 @@ def upload_thumbnail(event, context):
         if extension == 'MP3' or extension == 'WAV':
             audio_output_key = original_output_key = output_key + \
                 "/" + base + "." + extension.lower()
-            s3_client.upload_fileobj(Fileobj=uploaded_object,
+            s3_client.upload_fileobj(Fileobj=uploaded_object["Body"],
                                      Bucket=output_bucket, Key=audio_output_key)
             return
 
