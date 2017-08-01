@@ -66,7 +66,7 @@ services:
       - "./fakes3:/fakes3"
       - uploaded_media:/s3mnt/fakes3_root/fakes3_uploads/media/
     command:
-      bash -c "/usr/local/bundle/gems/fakes3-0.2.4/bin/fakes3 -r /s3mnt/fakes3_root -p 10001 & python -u fakes3/watch_files.py"
+      bash -c "/usr/local/bundle/gems/fakes3-1.2.0/bin/fakes3 -r /s3mnt/fakes3_root -p 10001 & python -u fakes3/watch_files.py"
 
 volumes:
   static_files: {} # compiled js/css and uploaded widgets
