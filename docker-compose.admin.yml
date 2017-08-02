@@ -6,7 +6,7 @@ services:
     environment:
       - FUEL_ENV=test
     volumes:
-      - static_files_test:/var/www/html/static
+      - static_files_test:/var/www/html/public/widget
       - uploaded_media_test:/var/www/html/fuel/packages/materia/media
     command: echo "yay"
 
@@ -15,7 +15,6 @@ services:
     image: ***REMOVED***/materia-node:2.0.1
     volumes:
       - ./app:/var/www/html:rw
-      - static_files:/var/www/html/static:rw
       - node_modules:/var/www/html/node_modules
 
   mysql:
