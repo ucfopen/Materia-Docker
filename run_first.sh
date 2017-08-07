@@ -75,16 +75,11 @@ docker-compose run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- composer oil-
 
 docker-compose run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
 
-# # install all the needed npm stuff
-$NODE_DC_COMMAND run --rm node yarn install --pure-lockfile --force
-
-# # compile js and css
-$NODE_DC_COMMAND run --rm node yarn run assets
+source run_assets_build.sh
 
 # run that beast
 # Use docker or set up the docker-machine environment
 echo -e "Materia will be hosted on \033[32m$DOCKER_IP\033[0m"
-echo -e "\033[1mRun gulp:\033[0m $NODE_DC_COMMAND run --rm node yarn run assets"
-echo -e "\033[1mRun an oil comand:\033[0m docker-compose run --rm phpfpm php oil r"
+echo -e "\033[1mBuild Assets:\033[0m ./run_assets_build.sh"
+echo -e "\033[1mRun an oil comand:\033[0m ./run.sh php oil r  widget:show_engines"
 echo -e "\033[1mRun the web app:\033[0m docker-compose up"
-
