@@ -22,6 +22,8 @@ services:
       - MYSQL_DATABASE=test
     volumes:
       - "./config/mysql/dev.my.cnf:/etc/mysql/conf.d/my.cnf"
+    tmpfs:
+      - /var/lib/mysql
 
 volumes:
   static_files_test: {}

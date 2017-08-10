@@ -39,8 +39,8 @@ services:
       - MYSQL_DATABASE=materia
     ports:
       - "3306:3306" # allow mysql access from the host - use /etc/hosts to set mysql to your docker-machine ip
-    volumes:
-      - "./config/mysql/01_create_test.sql:/docker-entrypoint-initdb.d/01_create_test.sql"
+    # volumes:
+    #   - "./config/mysql/01_create_test.sql:/docker-entrypoint-initdb.d/01_create_test.sql"
 
   memcached:
     image: memcached:1.4.27-alpine
