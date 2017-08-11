@@ -32,7 +32,7 @@ $DC run --rm phpfpm composer install
 $DC run --rm phpfpm env COMPOSER_ALLOW_SUPERUSER=1 composer sniff-summary
 
 # install widgets and run tests
-source run_tests_coverage.sh
+source ./run_tests_coverage.sh
 
 # stop and remove docker containers
 $DC stop
