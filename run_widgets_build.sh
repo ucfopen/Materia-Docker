@@ -18,6 +18,7 @@
 
 set -e
 
+CWD=$(pwd)
 # make a place to put .wigt files
 if [ ! -d app/fuel/app/tmp/widget_packages ]; then
 	mkdir app/fuel/app/tmp/widget_packages
@@ -96,9 +97,8 @@ for i in ${WIDGETS[@]}; do
 	fi
 
 	set -e
-	cd ../../../../../
-	cp app/fuel/app/tmp/widgetsrc/.build/**/*.wigt app/fuel/app/tmp/widget_packages/
-	rm -rf app/fuel/app/tmp/widgetsrc
+	cd $CWD
+	find app/fuel/app/tmp/widgetsrc -name '*.wigt' -exec cp {} app/fuel/app/tmp/widget_packages/ \;
 	echo "DONE"
 done
 
