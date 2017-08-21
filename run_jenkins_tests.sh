@@ -32,7 +32,7 @@ $DC run --rm phpfpm composer install
 $DC run --rm phpfpm env COMPOSER_ALLOW_SUPERUSER=1 composer sniff-summary
 
 # install widgets and run tests
-$DC run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- env COMPOSER_ALLOW_SUPERUSER=1 composer coverageci
+source ./run_tests_coverage.sh
 
 # stop and remove docker containers
 $DC stop
