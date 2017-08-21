@@ -56,10 +56,11 @@ services:
       context: .
       dockerfile: dockerfiles/materia-fakes3
     environment:
+      - INPUT_BUCKET=fakes3_uploads
       - OUTPUT_BUCKET=fakes3_assets
-      - OUTPUT_MAX_DIMENSIONS=75x75
-      - OUTPUT_ORIGINAL=true
+      - OUTPUT_MAX_DIMENSIONS=75x75, 0x0
       - OUTPUT_BASE_KEY=media
+      - IS_FAKES3=True
     ports:
       - "10001:10001"
     volumes:

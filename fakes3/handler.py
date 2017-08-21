@@ -1,10 +1,22 @@
 import os
-from fakes3_client import fakes3_client
-from PIL import Image
-import sys
 import StringIO
+import sys
+import boto3
+from PIL import Image
 
-s3_client = fakes3_client()
+
+SESSION = boto3.session.Session()
+
+# When using FakeS3, the Boto configuration variables need to be manipulated
+if os.environ['IS_FAKES3'] in ['true', 'True']:
+    S3_CLIENT = SESSION.client(
+        service_name='s3',
+        endpoint_url='http://localhost:10001/',
+        aws_access_key_id='secret',
+        aws_secret_access_key='secret',
+    )
+else:
+    S3_CLIENT = boto3.client('s3')
 
 
 def _process_image(image, extension, resize=None):
@@ -34,51 +46,55 @@ def upload_thumbnail(event, context):
 
         # build up the output variables
         output_bucket = os.environ['OUTPUT_BUCKET']
+        output_key = os.environ['OUTPUT_BASE_KEY']
         max_size = os.environ['OUTPUT_MAX_HEIGHT'] + \
             "x" + os.environ['OUTPUT_MAX_WIDTH']
-        output_size = int(os.environ['OUTPUT_MAX_HEIGHT']), \
-            int(os.environ['OUTPUT_MAX_WIDTH'])
-        output_key = os.environ['OUTPUT_BASE_KEY']
-
         filename = os.path.basename(source_key)
         base, extension = os.path.splitext(filename)
         extension = extension[1:].upper()
+
+        # If a valid size is not given, output the original
+        if not os.environ['OUTPUT_MAX_HEIGHT'] or not os.environ['OUTPUT_MAX_HEIGHT'] or not int(os.environ['OUTPUT_MAX_HEIGHT']) or not int(os.environ['OUTPUT_MAX_WIDTH']):
+            output_size = None
+        else:
+            output_size = int(os.environ['OUTPUT_MAX_HEIGHT']), \
+                int(os.environ['OUTPUT_MAX_WIDTH'])
 
         if extension not in ['JPEG', 'JPG', 'PNG', 'GIF', 'MP3', 'WAV']:
             print "Uploaded file extension is not supported: %s" % extension
             return None
 
+        # Normalize JPEG extensions to match Materia
         if extension == 'JPG':
             extension = 'JPEG'
 
-        # Download the image from s3 into memory
-        uploaded_object = s3_client.get_object(Bucket=source_bucket,
+        uploaded_object = S3_CLIENT.get_object(Bucket=source_bucket,
                                                Key=source_key)
 
+        # Supported audio files are not manipulated
         if extension == 'MP3' or extension == 'WAV':
             audio_output_key = original_output_key = output_key + \
                 "/" + base + "." + extension.lower()
-            s3_client.upload_fileobj(Fileobj=uploaded_object["Body"],
+            S3_CLIENT.upload_fileobj(Fileobj=uploaded_object["Body"],
                                      Bucket=output_bucket, Key=audio_output_key)
             return
 
-        # body is a file like object
-        uploaded_object_body = uploaded_object['Body']
+        uploaded_object_body = StringIO.StringIO(
+            uploaded_object['Body'].read())
 
-        if(os.environ['OUTPUT_ORIGINAL']):
-            original_image_data = _process_image(
-                uploaded_object_body, extension)
+        # No resizing occurs with invalid output sizes
+        if not output_size:
+            output_key = output_key + "/" + base + "." + extension.lower()
 
-            original_output_key = output_key + "/" + base + "." + extension.lower()
-
-            s3_client.upload_fileobj(Fileobj=original_image_data,
-                                     Bucket=output_bucket, Key=original_output_key)
+            S3_CLIENT.upload_fileobj(Fileobj=uploaded_object["Body"],
+                                     Bucket=output_bucket, Key=output_key)
+            return
 
         resized_image_data = _process_image(
             uploaded_object_body, extension, output_size)
 
-        resized_output_key = output_key + "/" + base + \
+        output_key = output_key + "/" + base + \
             "-" + max_size + "." + extension.lower()
 
-        s3_client.upload_fileobj(Fileobj=resized_image_data,
-                                 Bucket=output_bucket, Key=resized_output_key)
+        S3_CLIENT.upload_fileobj(Fileobj=resized_image_data,
+                                 Bucket=output_bucket, Key=output_key)
