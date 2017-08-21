@@ -11,6 +11,7 @@ RUN apk add --no-cache \
 RUN pip install watchdog
 RUN pip install requests
 RUN pip install Pillow
+RUN pip install boto3
 
 # install fake-s3
 RUN gem install fakes3 -v 0.2.4
