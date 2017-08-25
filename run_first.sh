@@ -28,7 +28,7 @@ NODE_DC_COMMAND="docker-compose -f docker-compose.yml -f docker-compose.admin.ym
 DOCKER_IP="localhost"
 
 if [ ! -d app ]; then
-	git clone git@github.com:ucfcdl/Materia.git app
+	git clone https://github.com/ucfcdl/Materia.git app
 fi
 
 if [ ! -d app ]; then
