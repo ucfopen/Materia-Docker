@@ -34,6 +34,13 @@ $DC run --rm phpfpm env COMPOSER_ALLOW_SUPERUSER=1 composer sniff-summary
 # install widgets and run tests
 source ./run_tests_coverage.sh
 
+# turn off failure stop on error
+set +e
+# lets remove everything we just made
+$DC run --rm phpfpm bash -c 'rm -rf ./fuel'
+$DC run --rm phpfpm bash -c 'chmod -R 777 ./coverage'
+$DC run --rm phpfpm bash -c 'chmod -R 777 ./coverage*'
+
 # stop and remove docker containers
 $DC stop
 $DC rm -f --all
