@@ -85,8 +85,10 @@ def upload_thumbnail(event, context):
         # No resizing occurs with invalid output sizes
         if not output_size:
             output_key = output_key + "/" + base + "." + extension.lower()
+            resized_image_data = _process_image(
+                uploaded_object_body, extension, None)
 
-            S3_CLIENT.upload_fileobj(Fileobj=uploaded_object["Body"],
+            S3_CLIENT.upload_fileobj(Fileobj=resized_image_data,
                                      Bucket=output_bucket, Key=output_key)
             return
 
