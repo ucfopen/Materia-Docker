@@ -52,7 +52,7 @@ fi
 # Login to awscli?
 if hash aws 2>/dev/null; then
 	echo "awscli detected... attempting to log in"
-	$(aws ecr get-login --no-include-emai)
+	$(aws ecr get-login --no-include-email)
 else
 	echo "awscli not detected you may have difficulty pulling docker images without it installed and setup.  Check README.md"
 fi
