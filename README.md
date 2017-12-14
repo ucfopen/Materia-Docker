@@ -15,10 +15,7 @@ Materia set up using as docker containers as close to standard as possible.
 ###  OSX Docker Setup
 1. install virtualbox v.5+
 2. update brew `brew update`
-3. install docker stuffs `brew install docker docker-machine docker-compose`
-4. check for an existing docker machine with `docker-machine ls`
-5. if not there, make a docker machine called *default* `docker-machine create -d virtualbox default`
-6. set env variables so docker commands will work in terminal `eval "$(docker-machine env default)"`
+3. install docker stuffs: Docker can be downloaded for [Mac](https://www.docker.com/docker-mac) or [Windows](https://www.docker.com/docker-windows), or through the Managed Software Center (recommended). Unlike `docker-machine`, no additional configuration is required.
 
 ### AWS Container Repository
 1. Install aws command line tools `brew install awscli`
@@ -29,14 +26,16 @@ Materia set up using as docker containers as close to standard as possible.
 
 ### Setting up the Development Materia Docker Server
 
-1. Make sure you Github ssh keys and Clu ssh keys are set up
+1. Make sure you Github ssh keys and Clu ssh keys are set 
 
-2. Clone this repo into a directory anywhere in your **home** directory.
+2. If you're using 2-factor authentication with Github, you'll have to set up a personal access token. [Instructions here.](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) On OSX, you can cache your GitHub password in the keychain. [Instructions here.](https://help.github.com/articles/caching-your-github-password-in-git/)
+
+3. Clone this repo into a directory anywhere in your **home** directory.
 	```
 	git clone git@***REMOVED***:materia/materia-docker.git ~/my_projects/materia_docker
 	```
 
-3. Run the first run script to build and prepare the server.
+4. Run the first run script to build and prepare the server.
 
 	```
 	./run_first.sh
@@ -51,7 +50,7 @@ Materia set up using as docker containers as close to standard as possible.
 	```
 * Compile the coffeescript and sass
 	```
-	./run_glup_once.sh
+	./run_assets_build.sh
 	```
 * Install composer libraries
 	```
@@ -64,11 +63,6 @@ Materia set up using as docker containers as close to standard as possible.
 * Install all Widgets in fuel/app/tmp/widget_packages/*.wigt
 	```
 	./run_widgets_install.sh '*.wigt'
-	```
-
-* What ip address my server on?
-	```
-	docker-machine ip default
 	```
 * Installing widgets: Copy the widget file you want to install into **app/fuel/app/tmp/widget\_packages/** and then run **install_widget.sh** passing the name of the widget file to install. Example:
    
@@ -108,8 +102,6 @@ If you get a *no space left on dev* error: Remove the machine with `docker-machi
 
 
 
-Use `docker-machine ip` and use the database user info from the docker-composer.yml
-
 Run oil commands: `docker-compose run --rm phpfpm php oil ......`
 
 You can clone the repositories from the repositories from the materia widget config:
@@ -117,17 +109,6 @@ You can clone the repositories from the repositories from the materia widget con
 
 Then install them all
 `./run_widgets_install.sh '*.wigt'`
-
-### Optional
-
-The `eval "$(docker-machine env default)"` command is somewhat tedious. Add the following in your *~/.bash_profile* and from now on you can simply type `dmenv default`:
-
-```
-function dmenv () {
-  eval $(docker-machine env $1);
-}
-```
-
 
 ### Building new docker images
 
