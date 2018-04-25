@@ -26,7 +26,7 @@ $DC build mysql
 $DC build phpfpm
 
 # install php deps
-$DC run --rm phpfpm composer install
+$DC run --rm phpfpm composer install --no-progress
 
 # run linter
 $DC run --rm phpfpm env COMPOSER_ALLOW_SUPERUSER=1 composer sniff-summary
