@@ -1,4 +1,5 @@
 app/*
+materia-client-assets/*
 materia-thumbnail-generator/*
 venv/
 *.pyc

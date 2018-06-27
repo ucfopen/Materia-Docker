@@ -25,7 +25,7 @@ services:
       - ./app:/var/www/html:rw
       - ./config/php/php.ini:/usr/local/etc/php/conf.d/php.ini:ro
       - ./config/php/php-extensions-runtime.ini:/usr/local/etc/php/conf.d/php-extensions-runtime.ini:ro
-      - uploaded_media:/var/www/html/fuel/packages/materia/media
+      - uploaded_media:/var/www/html/fuel/app/media
     links:
       - mysql
       - memcached
