@@ -32,7 +32,7 @@ if [ ! -d app ]; then
 fi
 
 if [ ! -d materia-thumbnail-generator ]; then
-	git clone https://***REMOVED***/serverless/materia-thumbnail-generator.git
+	git clone https://clu.cdl.ucf.edu/serverless/materia-thumbnail-generator.git
 fi
 
 if [ ! -d app ]; then

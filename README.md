@@ -32,7 +32,7 @@ Materia set up using as docker containers as close to standard as possible.
 
 3. Clone this repo into a directory anywhere in your **home** directory.
 	```
-	git clone git@***REMOVED***:materia/materia-docker.git ~/my_projects/materia_docker
+	git clone git@clu.cdl.ucf.edu:materia/materia-docker.git ~/my_projects/materia_docker
 	```
 
 4. Run the first run script to build and prepare the server.
