@@ -14,7 +14,7 @@ services:
       - phpfpm
 
   phpfpm:
-    image: ***REMOVED***/materia-web:7.0.10-fpm-alpine2
+    image: ucfopen/materia-web-base:7.0.10-fpm-alpine2
     environment:
       - FUEL_ENV=development
       - DB_HOST=mysql

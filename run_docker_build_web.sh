@@ -10,9 +10,9 @@
 #######################################################
 set -e
 
-BOX_NAME="materia-web"
+BOX_NAME="materia-web-base"
 DOCKERFILE="dockerfiles/materia-web"
-DCR="***REMOVED***"
+DCR="ucfopen"
 
 docker build -t $BOX_NAME:latest -f $DOCKERFILE .
 
