@@ -12,7 +12,7 @@ set -e
 
 BOX_NAME="materia-node"
 DOCKERFILE="dockerfiles/materia-node"
-DCR="***REMOVED***"
+DCR="ucfopen"
 
 docker build -t $BOX_NAME:latest -f $DOCKERFILE .
 
