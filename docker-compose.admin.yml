@@ -12,7 +12,7 @@ services:
 
   # We use a node container to compile js, css, etc
   node:
-    image: ucfopen/materia-node:2.0.1
+    image: ucfopen/materia-node:latest
     volumes:
       - ./app:/var/www/html:rw
       - node_modules:/var/www/html/node_modules
