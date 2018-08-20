@@ -15,6 +15,8 @@ Materia development environment using as docker containers.
 
 Clone repo and execute `./run_first.sh`
 
+Please take note of the user accounts that are created for you in the install process.  The user names and a random password will be echoed to the terminal after Composer installs the required PHP libraries.
+
 ### Common Dev Commands
 
 * Run the server
@@ -54,14 +56,7 @@ Clone repo and execute `./run_first.sh`
     ```
 ### Default User Accounts
 
-If you wish to log into materia, there are 2 default accounts created for you.
-
-* Author account:
-	* Username: `~author`
-	* Password: `kogneato`
-* Student account:
-	* Username: `~student`
-	* Password: `kogneato`
+If you wish to log into Materia, there are 2 default accounts created for you.
 
 ### Troubleshooting
 
