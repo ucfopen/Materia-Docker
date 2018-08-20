@@ -1,14 +1,15 @@
 # Materia Docker Container
 
-Materia set up using as docker containers as close to standard as possible.
+Materia development environment using as docker containers.
 
 ## Container Architecture
 
- 1. nginx serves materia on port 80 and static files on 8080
- 3. phpfpm runs php - served by the nginx container on port 80
- 4. mysql holds all the data
- 5. memcached holds session data and cache
- 6. node compiles all the assets and shuts down
+ 1. [Nginx](https://www.nginx.com/) as a web server (proxies to phpfpm for app and serves static files directly)
+ 3. [PHP-FPM](https://php-fpm.org/) manages the PHP processes for the application
+ 4. [MySQL](https://www.mysql.com/) for storing relational application data
+ 5. [Memcached](https://memcached.org/) for caching data and sessions
+ 6. [Node.js](https://nodejs.org/en/) compiles all the js and css assets
+ 7. [FakeS3](https://github.com/jubos/fake-s3) mocks AWS S3 behavior for asset uploading
 
 ## Setup
 
