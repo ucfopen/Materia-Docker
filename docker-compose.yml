@@ -46,9 +46,7 @@ services:
     image: memcached:1.4.27-alpine
 
   fakes3:
-    build:
-      context: .
-      dockerfile: dockerfiles/materia-fakes3
+    image: ucfopen/materia-fake-s3:latest
     environment:
       - INPUT_BUCKET=fakes3_uploads
       - OUTPUT_BUCKET=fakes3_assets

@@ -7,14 +7,13 @@
 
 # 1. Clone materia into ./app/
 # 2. Get a local copy of the current Docker Images
-# 3. Build any Docker Images we need to
-# 4. Create the containers
-# 5. Install php composer dependencies
-# 6. Clean the migration files
-# 7. Run Materia installer
-# 8. Install any widgets in fuel/app/tmp/widget_packages/
-# 9. Use Yarn to install js dependencies
-# 10. Use Yarn to build js and css
+# 3. Create the containers
+# 4. Install php composer dependencies
+# 5. Clean the migration files
+# 6. Run Materia installer
+# 7. Install any widgets in fuel/app/tmp/widget_packages/
+# 8. Use Yarn to install js dependencies
+# 9. Use Yarn to build js and css
 #
 # If you find you really need to burn everything down
 # Run "docker-compose down" to get rid of all containers
