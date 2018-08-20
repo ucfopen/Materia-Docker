@@ -13,6 +13,9 @@ services:
   # We use a node container to compile js, css, etc
   node:
     image: ucfopen/materia-node:latest
+    environment:
+      - GITHUB_GIT_USER=${GITHUB_GIT_USER}
+      - GITHUB_GIT_PASS=${GITHUB_GIT_PASS}
     volumes:
       - ./app:/var/www/html:rw
       - node_modules:/var/www/html/node_modules

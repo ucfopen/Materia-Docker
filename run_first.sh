@@ -39,16 +39,7 @@ if [ ! -d app ]; then
 	exit
 fi
 
-# Use docker or set up the docker-machine environment
-if hash docker 2>/dev/null; then
-	echo "using docker directly"
-else
-	echo "using docker-machine"
-	eval $(docker-machine env default)
-	DOCKER_IP="$(docker-machine ip default)"
-fi
-
-docker-compose pull
+# docker-compose pull
 
 # create and migrate the database
 docker-compose build

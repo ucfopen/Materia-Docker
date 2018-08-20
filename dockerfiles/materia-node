@@ -13,5 +13,8 @@ RUN npm install --global yarn@v1.7.0
 
 WORKDIR /var/www/html
 
+# Use Environment variables to authenticate to github when needed
+RUN git config --global credential.helper '!f() { sleep 1; echo "username=${GITHUB_GIT_USER}\npassword=${GITHUB_GIT_PASS}"; }; f'
+
 # Define default command.
 CMD ["bash"]
