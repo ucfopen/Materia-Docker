@@ -30,10 +30,6 @@ if [ ! -d app ]; then
 	git clone https://github.com/ucfcdl/Materia.git app
 fi
 
-if [ ! -d materia-thumbnail-generator ]; then
-	git clone https://clu.cdl.ucf.edu/serverless/materia-thumbnail-generator.git
-fi
-
 if [ ! -d app ]; then
 	echo "It looks like the app directory is empty"
 	exit
