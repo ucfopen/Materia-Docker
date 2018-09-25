@@ -1,5 +1,5 @@
 app/*
-materia-thumbnail-generator/*
 venv/
 *.pyc
 .DS_Store
+materia-server-client-assets/*
