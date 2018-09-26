@@ -7,4 +7,4 @@ RUN mkdir -p /s3mnt
 
 EXPOSE 10001
 
-CMD ["fakes3", "-r", "/s3mnt/fakes3_root", "-p", "10001"]
+CMD ["fakes3", "-r", "/s3mnt/fakes3_root", "-p", "10001", "--license", "MIT"]
