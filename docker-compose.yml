@@ -29,6 +29,7 @@ services:
     links:
       - mysql
       - memcached
+      - fakes3
 
   mysql:
     image: mysql:5.7.18
@@ -56,10 +57,7 @@ services:
     ports:
       - "10001:10001"
     volumes:
-      - "./materia-thumbnail-generator:/materia-thumbnail-generator"
       - uploaded_media:/s3mnt/fakes3_root/fakes3_uploads/media/
-    command:
-      bash -c "sh /materia-thumbnail-generator/setup_fakes3.sh"
 
 volumes:
   # static_files: {} # compiled js/css and uploaded widgets

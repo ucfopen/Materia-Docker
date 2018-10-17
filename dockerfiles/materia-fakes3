@@ -1,29 +1,10 @@
-FROM amazonlinux:2018.03
+FROM ruby:2.5-alpine
 
-RUN yum -y install \
-  ruby \
-  build-base \
-  git \
-  libjpeg-turbo-dev \
-  python \
-  python-dev \
-  python27-pip \
-  bash
-
-# fakes3 requires setup because this is not the public build
-RUN git clone https://github.com/ucfcdl/fake-s3.git /tmp/fake-s3
-
-WORKDIR /tmp/fake-s3
-RUN gem build fakes3.gemspec
-RUN gem install fakes3-1.2.0.gem
-WORKDIR /
-
-# These python dependencies are only used for this container, and will not be shipped with the Lambda function
-RUN pip install watchdog
-RUN pip install requests
-RUN pip install boto3 # lambda supports this library
+RUN gem install fakes3 -v 2.0.0
 
 # create directory for s3 to hold uploads
 RUN mkdir -p /s3mnt
 
 EXPOSE 10001
+
+CMD ["fakes3", "-r", "/s3mnt/fakes3_root", "-p", "10001", "--license", "MIT"]
