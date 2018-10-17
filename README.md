@@ -58,6 +58,19 @@ Please take note of the user accounts that are created for you in the install pr
 
 If you wish to log into Materia, there are 2 default accounts created for you.
 
+### Updating a container
+
+If you're wanting to update a php or mysql version, this can be done locally for testing before updating the global image.
+
+1. edit the desired dockerfile (or just alter the image in docker-compose if there is no dockerfile).
+2. Execute `./run_docker_build_web.sh` to build a new local web/php image.
+3. OVERWRITE your locally tagged image: `docker tag materia-web-base:latest ucfopen/materia-web-base:latest`
+4. Removing any existing running container using that image
+5. Start the desired container
+6. Verify the container is running the new version
+7. Test Materia
+8. submit a pull request (the containers are built and published automatically)
+
 ### Troubleshooting
 
 #### Table Not Found

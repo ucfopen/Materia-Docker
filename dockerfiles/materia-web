@@ -1,4 +1,4 @@
-FROM php:7.0.10-fpm-alpine
+FROM php:7.1.22-fpm-alpine
 MAINTAINER Ian Turgeon
 
 RUN apk add --no-cache \
