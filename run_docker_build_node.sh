@@ -11,9 +11,10 @@
 set -e
 
 BOX_NAME="materia-node"
-DOCKERFILE="dockerfiles/materia-node"
+DOCKERFILE="materia-node"
 DCR="ucfopen"
 
+cd ./dockerfiles
 docker build -t $BOX_NAME:latest -f $DOCKERFILE .
 
 echo "==================================================="
