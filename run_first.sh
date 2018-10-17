@@ -53,8 +53,13 @@ if [ -f  app/fuel/app/config/development/migrations.php ]; then
 	rm -f app/fuel/app/config/development/migrations.php
 fi
 
+# setup mysql
 docker-compose run --rm phpfpm /wait-for-it.sh mysql:3306 -t 20 -- composer oil-install-quiet
 
+# install all the configured widgets
+docker-compose run --rm phpfpm bash -c 'php oil r widget:install_from_config'
+
+# Install any widgets in the tmp dir
 docker-compose run --rm phpfpm bash -c 'php oil r widget:install fuel/app/tmp/widget_packages/*.wigt'
 
 source run_assets_build.sh
